@@ -1,177 +1,336 @@
-import { useEffect, useState } from 'react';
+import { useState } from "react";
 
-export default function App() {
-  const [scrolled, setScrolled] = useState(false);
+/* ---------- TYPES ---------- */
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 10);
-    };
+type Project = {
+  title: string;
+  description: string;
+};
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+type ExpandableCardProps = {
+  title: string;
+  subtitle: string;
+  description: string;
+  icons: string[];
+  projects: Project[];
+};
+
+/* ---------- COMPONENTS ---------- */
+
+function ExpandableCard({
+  title,
+  subtitle,
+  description,
+  icons,
+  projects,
+}: ExpandableCardProps) {
+  const [open, setOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-slate-900 text-slate-100 font-sans antialiased">
-      
-      {/* NAV - Fixed header with scroll effect */}
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled 
-          ? 'bg-slate-950/90 backdrop-blur-md py-4 shadow-lg' 
-          : 'bg-slate-900/80 backdrop-blur-sm py-6'
-      }`}>
-        <div className="flex items-center justify-between px-8 max-w-6xl mx-auto">
-          <div className="flex items-center space-x-3">
-            {/* Icon next to name */}
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center">
-              <span className="text-white font-bold text-sm">MB</span>
+    <div
+      onClick={() => setOpen(!open)}
+      className={`
+        cursor-pointer rounded-3xl border border-white/10
+        bg-gradient-to-br from-slate-900 to-slate-950
+        p-8 transition-all duration-500
+        shadow-[0_0_35px_rgba(99,102,241,0.45)]
+        hover:shadow-[0_0_65px_rgba(139,92,246,0.85)]
+        ${open ? "scale-[1.03]" : ""}
+      `}
+    >
+      <div className="flex items-center justify-between">
+        <div>
+          <h3 className="text-2xl font-bold">{title}</h3>
+          <p className="text-indigo-400 text-sm mt-1">{subtitle}</p>
+        </div>
+
+        <div className="flex gap-3 text-2xl">
+          {icons.map((i) => (
+            <span key={i}>{i}</span>
+          ))}
+        </div>
+      </div>
+
+      <div
+        className={`grid transition-all duration-500 ${
+          open ? "grid-rows-[1fr] mt-8" : "grid-rows-[0fr]"
+        }`}
+      >
+        <div className="overflow-hidden space-y-6">
+          <p className="text-slate-300">{description}</p>
+
+          <div>
+            <h4 className="font-semibold mb-3">Projects</h4>
+            <div className="grid md:grid-cols-2 gap-4">
+              {projects.map((p) => (
+                <div
+                  key={p.title}
+                  className="rounded-xl border border-white/10 p-4 bg-slate-900
+                    shadow-[0_0_20px_rgba(99,102,241,0.25)]
+                  "
+                >
+                  <h5 className="font-bold">{p.title}</h5>
+                  <p className="text-sm text-slate-400 mt-1">
+                    {p.description}
+                  </p>
+                </div>
+              ))}
             </div>
-            <h1 className="text-xl font-bold tracking-wide">Marko Bakula</h1>
-          </div>
-          <div className="space-x-6 text-sm">
-            <a href="#projects" className="hover:text-indigo-400 transition-colors duration-300">Projects</a>
-            <a href="#skills" className="hover:text-indigo-400 transition-colors duration-300">Skills</a>
-            <a href="#contact" className="hover:text-indigo-400 transition-colors duration-300">Contact</a>
           </div>
         </div>
-      </nav>
-
-      {/* Add padding to account for fixed header */}
-      <div className="pt-24">
-        
-        {/* HERO */}
-        <section className="flex flex-col items-center justify-center text-center px-6 py-32 space-y-6">
-          <h2 className="text-4xl md:text-6xl font-extrabold tracking-tight leading-tight">
-            Frontend & Game Developer
-          </h2>
-          <p className="max-w-xl text-slate-400 text-lg md:text-xl">
-            I build interactive web experiences and games using modern tools
-            like React, Tailwind, Unity, and Unreal Engine.
-          </p>
-          <div className="flex flex-wrap gap-4 justify-center mt-4">
-            <a
-              href="#projects"
-              className="px-6 py-3 rounded-lg bg-indigo-600 hover:bg-indigo-500 transition-colors duration-300 shadow-md hover:shadow-lg"
-            >
-              View Projects
-            </a>
-            <a
-              href="#contact"
-              className="px-6 py-3 rounded-lg border border-slate-600 hover:border-indigo-400 hover:text-indigo-400 transition-colors duration-300"
-            >
-              Contact Me
-            </a>
-          </div>
-        </section>
-
-        {/* EXTENDED CONTENT - Added to make body longer */}
-        <section id="projects" className="px-8 py-20">
-          <h3 className="text-3xl font-bold mb-12 text-center tracking-tight">Featured Projects</h3>
-          <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[
-              { title: "React Game Engine", desc: "Browser-based game development toolkit", tech: "React, Canvas, TypeScript" },
-              { title: "Unity RPG Demo", desc: "3D role-playing game prototype", tech: "Unity, C#, Blender" },
-              { title: "Portfolio Website", desc: "This responsive portfolio site", tech: "React, Tailwind, Vite" },
-              { title: "Unreal FPS", desc: "First-person shooter with multiplayer", tech: "Unreal Engine, C++" },
-              { title: "E-commerce Dashboard", desc: "Admin panel with real-time analytics", tech: "React, Node.js, WebSockets" },
-              { title: "Mobile Puzzle Game", desc: "Cross-platform mobile game", tech: "Unity, C#, Firebase" },
-            ].map((project, index) => (
-              <div 
-                key={index}
-                className="bg-slate-800 rounded-xl p-6 hover:bg-slate-700 transition-colors duration-300 border border-slate-700 hover:border-indigo-500/30"
-              >
-                <h4 className="text-xl font-bold mb-2">{project.title}</h4>
-                <p className="text-slate-400 mb-4">{project.desc}</p>
-                <p className="text-sm text-indigo-400">{project.tech}</p>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* SKILLS */}
-        <section id="skills" className="px-8 py-20 bg-slate-800">
-          <h3 className="text-3xl font-bold mb-12 text-center tracking-tight">Skills</h3>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
-            {[
-              "React",
-              "TypeScript",
-              "Tailwind CSS",
-              "Unity",
-              "Unreal Engine",
-              "C#",
-              "Git",
-              "Game Design",
-            ].map(skill => (
-              <div
-                key={skill}
-                className="bg-slate-900 rounded-xl py-4 text-center font-medium hover:scale-105 hover:bg-slate-700 transition-all duration-300 shadow-sm border border-slate-800 hover:border-indigo-500/30"
-              >
-                {skill}
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* ABOUT SECTION - Added more content */}
-        <section className="px-8 py-20">
-          <div className="max-w-4xl mx-auto">
-            <h3 className="text-3xl font-bold mb-8 text-center tracking-tight">About Me</h3>
-            <div className="space-y-6 text-slate-300">
-              <p>
-                I'm a passionate developer with expertise in both frontend web development and game development. 
-                I enjoy creating immersive user experiences, whether it's through responsive web applications 
-                or engaging video games.
-              </p>
-              <p>
-                My approach combines technical precision with creative problem-solving, ensuring that every 
-                project not only functions flawlessly but also delivers an exceptional user experience.
-              </p>
-              <p>
-                When I'm not coding, you can find me experimenting with new game mechanics, exploring the 
-                latest web technologies, or contributing to open-source projects.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        {/* FOOTER */}
-        <footer id="contact" className="px-8 py-16 bg-slate-950 text-center text-slate-400">
-          <div className="max-w-4xl mx-auto">
-            <h3 className="text-2xl font-bold mb-6">Get In Touch</h3>
-            <p className="mb-8 max-w-xl mx-auto">
-              Interested in collaborating or have a project in mind? 
-              I'm always open to discussing new opportunities.
-            </p>
-            <div className="flex flex-wrap gap-4 justify-center mb-8">
-              <a 
-                href="mailto:marko@example.com" 
-                className="px-6 py-3 rounded-lg bg-indigo-600 hover:bg-indigo-500 transition-colors duration-300"
-              >
-                Email Me
-              </a>
-              <a 
-                href="https://github.com" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="px-6 py-3 rounded-lg border border-slate-600 hover:border-indigo-400 hover:text-indigo-400 transition-colors duration-300"
-              >
-                GitHub
-              </a>
-              <a 
-                href="https://linkedin.com" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="px-6 py-3 rounded-lg border border-slate-600 hover:border-indigo-400 hover:text-indigo-400 transition-colors duration-300"
-              >
-                LinkedIn
-              </a>
-            </div>
-            <p className="text-sm">© {new Date().getFullYear()} Marko Bakula. All rights reserved.</p>
-          </div>
-        </footer>
-        
       </div>
     </div>
-  )
+  );
+}
+
+function ExperienceCard({
+  role,
+  company,
+  period,
+  description,
+}: {
+  role: string;
+  company: string;
+  period: string;
+  description: string;
+}) {
+  return (
+    <div
+      className="
+        rounded-2xl bg-gradient-to-br from-slate-900 to-slate-950
+        border border-white/10 p-6
+        shadow-[0_0_30px_rgba(99,102,241,0.35)]
+        hover:shadow-[0_0_55px_rgba(139,92,246,0.75)]
+        transition-all duration-300
+      "
+    >
+      <h4 className="font-bold text-lg">{role}</h4>
+      <p className="text-indigo-400 text-sm">
+        {company} · {period}
+      </p>
+      <p className="text-slate-300 mt-4">{description}</p>
+    </div>
+  );
+}
+
+function EducationCard({
+  title,
+  school,
+  period,
+  align,
+  big,
+  current,
+}: {
+  title: string;
+  school: string;
+  period: string;
+  align: "left" | "right";
+  big?: boolean;
+  current?: boolean;
+}) {
+  return (
+    <div
+      className={`relative flex ${
+        align === "left" ? "justify-start pr-8" : "justify-end pl-8"
+      }`}
+    >
+      {/* Timeline node */}
+      <span className="absolute left-1/2 top-12 -translate-x-1/2 z-10">
+        <span className="block w-4 h-4 rounded-full bg-indigo-400" />
+        <span className="absolute inset-0 rounded-full bg-indigo-400 blur-xl opacity-80" />
+      </span>
+
+      <div
+        className={`
+          relative rounded-3xl border border-white/10
+          transition-all duration-500
+          ${
+            big
+              ? "w-full md:w-[75%] p-10 scale-[1.06] bg-gradient-to-br from-indigo-900/30 via-slate-900 to-slate-950"
+              : "w-full md:w-[52%] p-8 bg-gradient-to-br from-slate-900 to-slate-950"
+          }
+          ${
+            current
+              ? "shadow-[0_0_80px_rgba(99,102,241,0.8)] hover:shadow-[0_0_120px_rgba(139,92,246,1)]"
+              : "shadow-[0_0_35px_rgba(99,102,241,0.4)] hover:shadow-[0_0_60px_rgba(139,92,246,0.7)]"
+          }
+          hover:-translate-y-2
+        `}
+      >
+        {current && (
+          <span
+            className="
+              absolute -top-5 right-10 px-5 py-1 text-xs font-bold tracking-widest
+              rounded-full bg-gradient-to-r from-indigo-500 to-purple-500
+              shadow-[0_0_25px_rgba(139,92,246,0.9)]
+            "
+          >
+            CURRENT
+          </span>
+        )}
+
+        <h3 className={`font-extrabold ${big ? "text-3xl" : "text-xl"}`}>
+          {title}
+        </h3>
+
+        <p className="text-indigo-300 mt-2">{school}</p>
+        <p className="text-sm text-slate-400 mt-4">{period}</p>
+      </div>
+    </div>
+  );
+}
+
+/* ---------- APP ---------- */
+
+export default function App() {
+  return (
+    <div className="min-h-screen bg-slate-950 text-white">
+      {/* HEADER */}
+      <header className="sticky top-0 z-50 bg-slate-950/80 backdrop-blur border-b border-white/10">
+        <nav className="max-w-6xl mx-auto px-6 py-7 flex items-center justify-between">
+          <div className="flex gap-8 text-sm font-medium">
+            <a href="#skills" className="hover:text-indigo-400">Skills</a>
+            <a href="#experience" className="hover:text-indigo-400">Experience</a>
+            <a href="#education" className="hover:text-indigo-400">Education</a>
+            <a href="#contact" className="hover:text-indigo-400">Contact</a>
+          </div>
+
+          <div className="font-extrabold text-xl tracking-wide">
+            Marko Bakula
+          </div>
+        </nav>
+      </header>
+
+      {/* HERO */}
+      <section className="max-w-6xl mx-auto px-6 py-32">
+        <h1 className="text-5xl font-extrabold">Marko Bakula</h1>
+        <p className="text-indigo-400 text-xl mt-3">
+          Frontend · Game · Motion Developer
+        </p>
+        <p className="max-w-3xl text-slate-300 mt-8 leading-relaxed">
+          I build interactive experiences across web, games and motion.
+          My focus is on strong visual feedback, polished UX and clean,
+          scalable architecture — blending technical precision with creativity.
+        </p>
+      </section>
+
+      {/* SKILLS */}
+      <section id="skills" className="max-w-6xl mx-auto px-6 space-y-10">
+        <ExpandableCard
+          title="Web Development"
+          subtitle="Frontend & UI Engineering"
+          icons={["🌐", "⚛️", "🎨"]}
+          description="Building modern, responsive and animated interfaces with React, TypeScript and Tailwind."
+          projects={[
+            { title: "Portfolio Website", description: "Personal portfolio with animations." },
+            { title: "Admin Dashboard", description: "Analytics dashboard with charts and filters." },
+          ]}
+        />
+
+        <ExpandableCard
+          title="Game Development"
+          subtitle="Unity & Gameplay Systems"
+          icons={["🎮", "🧠", "✨"]}
+          description="Gameplay programming, tools, shaders and systems built in Unity."
+          projects={[
+            { title: "Puzzle Game", description: "Grid-based mechanics and progression." },
+            { title: "Action Prototype", description: "Movement, combat and effects." },
+          ]}
+        />
+
+        <ExpandableCard
+          title="Video Editing"
+          subtitle="After Effects & Motion Design"
+          icons={["🎬", "🌀", "✨"]}
+          description="Motion graphics, animated UI, transitions and visual storytelling."
+          projects={[
+            { title: "Promo Video", description: "Short promotional motion piece." },
+            { title: "Logo Animation", description: "Animated logo reveal." },
+          ]}
+        />
+      </section>
+
+      {/* EXPERIENCE */}
+      <section id="experience" className="max-w-6xl mx-auto px-6 py-32 space-y-8">
+        <h2 className="text-3xl font-bold">Work Experience</h2>
+
+        <ExperienceCard
+          role="Frontend Developer Intern"
+          company="ERP Sirmium"
+          period="2023"
+          description="Worked on frontend features, UI improvements and integration with backend systems."
+        />
+
+        <ExperienceCard
+          role="Operation Engineer / Unity Developer"
+          company="Replai"
+          period="2024"
+          description="Developed Unity-based gameplay systems, tools and interactive features."
+        />
+      </section>
+
+      {/* EDUCATION */}
+      <section id="education" className="relative max-w-6xl mx-auto px-6 py-32">
+        <h2 className="text-3xl font-bold mb-24 text-center">Education</h2>
+
+        {/* Timeline line */}
+        <div className="pointer-events-none absolute left-1/2 top-48 bottom-24 -translate-x-1/2">
+          <div className="absolute inset-0 w-[2px] bg-gradient-to-b from-indigo-400 via-purple-500/70 to-transparent" />
+          <div className="absolute inset-0 w-[6px] bg-gradient-to-b from-indigo-500/40 via-purple-500/20 to-transparent blur-xl" />
+        </div>
+
+        <div className="space-y-32">
+          <EducationCard
+            title="Master Studies – Computer Engineering"
+            school="VIŠER – School of Electrical and Computer Engineering"
+            period="2024 – Present"
+            big
+            current
+            align="left"
+          />
+
+          <EducationCard
+            title="Bachelor Studies – Business Informatics"
+            school="VIŠER – School of Electrical and Computer Engineering"
+            period="2021 – 2024"
+            align="right"
+          />
+
+          <EducationCard
+            title="Technical High School"
+            school="Nikola Tesla Technical School"
+            period="2017 – 2021"
+            align="left"
+          />
+        </div>
+      </section>
+
+      {/* CONTACT */}
+      <section id="contact" className="max-w-6xl mx-auto px-6 py-32">
+        <h2 className="text-3xl font-bold mb-8">Contact</h2>
+
+        <div className="grid md:grid-cols-2 gap-12">
+          <div className="space-y-4 text-slate-300">
+            <p>
+              Interested in collaboration, freelance work or opportunities?
+              Feel free to reach out.
+            </p>
+            <p className="text-indigo-400">email@example.com</p>
+            <p className="text-indigo-400">+381 60 123 4567</p>
+          </div>
+
+          <div className="flex flex-col gap-4 text-indigo-400">
+            <a href="#" className="hover:underline">LinkedIn</a>
+            <a href="#" className="hover:underline">GitHub</a>
+            <a href="#" className="hover:underline">Portfolio</a>
+          </div>
+        </div>
+      </section>
+
+      {/* FOOTER */}
+      <footer className="border-t border-white/10 py-6 text-center text-sm text-slate-400">
+        © {new Date().getFullYear()} Marko Bakula · Built with React & Tailwind
+      </footer>
+    </div>
+  );
 }
