@@ -31,20 +31,20 @@ function ExpandableCard({
       onClick={() => setOpen(!open)}
       className={`
         cursor-pointer rounded-3xl border border-white/10
-        bg-gradient-to-br from-slate-900 to-slate-950
+        bg-gradient-to-br from-slate-900 via-slate-950 to-black
         p-8 transition-all duration-500
-        shadow-[0_0_35px_rgba(99,102,241,0.45)]
-        hover:shadow-[0_0_65px_rgba(139,92,246,0.85)]
+        shadow-[0_0_30px_rgba(99,102,241,0.25)]
+        hover:shadow-[0_0_55px_rgba(99,102,241,0.45)]
         ${open ? "scale-[1.03]" : ""}
       `}
     >
       <div className="flex items-center justify-between">
         <div>
           <h3 className="text-2xl font-bold">{title}</h3>
-          <p className="text-indigo-400 text-sm mt-1">{subtitle}</p>
+          <p className="text-indigo-300 text-sm mt-1">{subtitle}</p>
         </div>
 
-        <div className="flex gap-3 text-2xl">
+        <div className="flex gap-3 text-2xl opacity-80">
           {icons.map((i) => (
             <span key={i}>{i}</span>
           ))}
@@ -56,21 +56,25 @@ function ExpandableCard({
           open ? "grid-rows-[1fr] mt-8" : "grid-rows-[0fr]"
         }`}
       >
-        <div className="overflow-hidden space-y-6">
-          <p className="text-slate-300">{description}</p>
+        <div className="overflow-hidden space-y-8">
+          <p className="text-slate-300 leading-relaxed">{description}</p>
 
           <div>
-            <h4 className="font-semibold mb-3">Projects</h4>
+            <h4 className="font-semibold mb-4 text-slate-200">
+              Selected Projects
+            </h4>
             <div className="grid md:grid-cols-2 gap-4">
               {projects.map((p) => (
                 <div
                   key={p.title}
-                  className="rounded-xl border border-white/10 p-4 bg-slate-900
-                    shadow-[0_0_20px_rgba(99,102,241,0.25)]
+                  className="
+                    rounded-xl border border-white/10 p-4
+                    bg-slate-900/80
+                    shadow-[0_0_18px_rgba(99,102,241,0.2)]
                   "
                 >
                   <h5 className="font-bold">{p.title}</h5>
-                  <p className="text-sm text-slate-400 mt-1">
+                  <p className="text-sm text-slate-400 mt-2 leading-relaxed">
                     {p.description}
                   </p>
                 </div>
@@ -99,16 +103,16 @@ function ExperienceCard({
       className="
         rounded-2xl bg-gradient-to-br from-slate-900 to-slate-950
         border border-white/10 p-6
-        shadow-[0_0_30px_rgba(99,102,241,0.35)]
-        hover:shadow-[0_0_55px_rgba(139,92,246,0.75)]
+        shadow-[0_0_25px_rgba(99,102,241,0.25)]
+        hover:shadow-[0_0_45px_rgba(99,102,241,0.45)]
         transition-all duration-300
       "
     >
       <h4 className="font-bold text-lg">{role}</h4>
-      <p className="text-indigo-400 text-sm">
+      <p className="text-indigo-300 text-sm mt-1">
         {company} · {period}
       </p>
-      <p className="text-slate-300 mt-4">{description}</p>
+      <p className="text-slate-300 mt-4 leading-relaxed">{description}</p>
     </div>
   );
 }
@@ -134,11 +138,12 @@ function EducationCard({
         align === "left" ? "justify-start pr-8" : "justify-end pl-8"
       }`}
     >
-      {/* Timeline node */}
-      <span className="absolute left-1/2 top-12 -translate-x-1/2 z-10">
-        <span className="block w-4 h-4 rounded-full bg-indigo-400" />
-        <span className="absolute inset-0 rounded-full bg-indigo-400 blur-xl opacity-80" />
-      </span>
+      {!big && (
+        <span className="absolute left-1/2 top-12 -translate-x-1/2 z-10">
+          <span className="block w-4 h-4 rounded-full bg-indigo-400" />
+          <span className="absolute inset-0 rounded-full bg-indigo-400 blur-xl opacity-60" />
+        </span>
+      )}
 
       <div
         className={`
@@ -146,13 +151,13 @@ function EducationCard({
           transition-all duration-500
           ${
             big
-              ? "w-full md:w-[75%] p-10 scale-[1.06] bg-gradient-to-br from-indigo-900/30 via-slate-900 to-slate-950"
+              ? "w-full md:w-[75%] p-10 scale-[1.06] bg-gradient-to-br from-indigo-900/25 via-slate-900 to-slate-950"
               : "w-full md:w-[52%] p-8 bg-gradient-to-br from-slate-900 to-slate-950"
           }
           ${
             current
-              ? "shadow-[0_0_80px_rgba(99,102,241,0.8)] hover:shadow-[0_0_120px_rgba(139,92,246,1)]"
-              : "shadow-[0_0_35px_rgba(99,102,241,0.4)] hover:shadow-[0_0_60px_rgba(139,92,246,0.7)]"
+              ? "shadow-[0_0_70px_rgba(99,102,241,0.6)] hover:shadow-[0_0_100px_rgba(99,102,241,0.85)]"
+              : "shadow-[0_0_30px_rgba(99,102,241,0.3)] hover:shadow-[0_0_55px_rgba(99,102,241,0.5)]"
           }
           hover:-translate-y-2
         `}
@@ -161,8 +166,8 @@ function EducationCard({
           <span
             className="
               absolute -top-5 right-10 px-5 py-1 text-xs font-bold tracking-widest
-              rounded-full bg-gradient-to-r from-indigo-500 to-purple-500
-              shadow-[0_0_25px_rgba(139,92,246,0.9)]
+              rounded-full bg-indigo-600
+              shadow-[0_0_20px_rgba(99,102,241,0.8)]
             "
           >
             CURRENT
@@ -189,10 +194,10 @@ export default function App() {
       <header className="sticky top-0 z-50 bg-slate-950/80 backdrop-blur border-b border-white/10">
         <nav className="max-w-6xl mx-auto px-6 py-7 flex items-center justify-between">
           <div className="flex gap-8 text-sm font-medium">
-            <a href="#skills" className="hover:text-indigo-400">Skills</a>
-            <a href="#experience" className="hover:text-indigo-400">Experience</a>
-            <a href="#education" className="hover:text-indigo-400">Education</a>
-            <a href="#contact" className="hover:text-indigo-400">Contact</a>
+            <a href="#skills" className="hover:text-indigo-300">Skills</a>
+            <a href="#experience" className="hover:text-indigo-300">Experience</a>
+            <a href="#education" className="hover:text-indigo-300">Education</a>
+            <a href="#contact" className="hover:text-indigo-300">Contact</a>
           </div>
 
           <div className="font-extrabold text-xl tracking-wide">
@@ -201,51 +206,152 @@ export default function App() {
         </nav>
       </header>
 
-      {/* HERO */}
-      <section className="max-w-6xl mx-auto px-6 py-32">
-        <h1 className="text-5xl font-extrabold">Marko Bakula</h1>
-        <p className="text-indigo-400 text-xl mt-3">
+{/* HERO */}
+<section className="relative min-h-screen flex items-center">
+  {/* background accent */}
+  <div className="pointer-events-none absolute inset-0">
+    <div className="absolute -top-40 -left-40 w-[600px] h-[600px] bg-indigo-600/20 blur-3xl rounded-full" />
+    <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-purple-600/20 blur-3xl rounded-full" />
+  </div>
+
+  <div className="relative max-w-6xl mx-auto px-6 w-full">
+    <div className="grid md:grid-cols-2 gap-16 items-center">
+      {/* LEFT — TEXT */}
+      <div>
+        <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight">
+          Marko Bakula
+        </h1>
+
+        <p className="mt-6 text-xl md:text-2xl font-medium text-indigo-300">
           Frontend · Game · Motion Developer
         </p>
-        <p className="max-w-3xl text-slate-300 mt-8 leading-relaxed">
-          I build interactive experiences across web, games and motion.
-          My focus is on strong visual feedback, polished UX and clean,
-          scalable architecture — blending technical precision with creativity.
+
+        <p className="mt-10 max-w-xl text-slate-300 leading-relaxed text-lg md:text-xl">
+          I design and build interactive digital experiences across web,
+          games and motion. My work emphasizes strong visual feedback,
+          intuitive user experience and clean, maintainable systems.
+          I enjoy bridging technical engineering with creative expression,
+          crafting products that feel polished, responsive and purposeful.
         </p>
-      </section>
+
+        {/* CTA row */}
+        <div className="mt-14 flex flex-wrap gap-6">
+          <a
+            href="#contact"
+            className="
+              inline-flex items-center justify-center
+              rounded-xl px-7 py-3 font-semibold
+              bg-indigo-600/90
+              shadow-[0_0_35px_rgba(99,102,241,0.7)]
+              hover:bg-indigo-500
+              hover:shadow-[0_0_55px_rgba(99,102,241,0.9)]
+              transition-all
+            "
+          >
+            Contact Me
+          </a>
+
+          <a
+            href="#skills"
+            className="
+              inline-flex items-center justify-center
+              rounded-xl px-7 py-3 font-semibold
+              border border-white/15
+              text-slate-200
+              hover:border-indigo-400
+              hover:text-indigo-300
+              transition-all
+            "
+          >
+            View Work
+          </a>
+        </div>
+      </div>
+
+      {/* RIGHT — IMAGE */}
+      <div className="relative flex justify-center md:justify-end mt-16 md:mt-0">
+        {/* glow */}
+        <div className="absolute w-80 h-80 rounded-full bg-indigo-500/30 blur-3xl" />
+
+        {/* image container */}
+        <div
+          className="
+            relative w-72 h-72 md:w-80 md:h-80 rounded-full
+            overflow-hidden
+            border border-white/15
+            bg-gradient-to-br from-slate-800 to-slate-900
+            shadow-[0_0_55px_rgba(99,102,241,0.5)]
+          "
+        >
+          <img
+            src="/profile.jpg"
+            alt="Marko Bakula"
+            className="w-full h-full object-cover"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
 
       {/* SKILLS */}
       <section id="skills" className="max-w-6xl mx-auto px-6 space-y-10">
         <ExpandableCard
           title="Web Development"
-          subtitle="Frontend & UI Engineering"
+          subtitle="Frontend Architecture & UI Engineering"
           icons={["🌐", "⚛️", "🎨"]}
-          description="Building modern, responsive and animated interfaces with React, TypeScript and Tailwind."
+          description="I specialize in building modern, responsive and animated web interfaces using React, TypeScript and Tailwind. My focus is on clean component architecture, performance, accessibility and creating interfaces that feel responsive and polished."
           projects={[
-            { title: "Portfolio Website", description: "Personal portfolio with animations." },
-            { title: "Admin Dashboard", description: "Analytics dashboard with charts and filters." },
+            {
+              title: "Portfolio Website",
+              description:
+                "Personal portfolio focused on motion, smooth interactions and scalable component structure.",
+            },
+            {
+              title: "Admin Dashboard",
+              description:
+                "Data-driven dashboard with charts, filters, reusable UI components and responsive layouts.",
+            },
           ]}
         />
 
         <ExpandableCard
           title="Game Development"
-          subtitle="Unity & Gameplay Systems"
+          subtitle="Unity, Gameplay Systems & Tools"
           icons={["🎮", "🧠", "✨"]}
-          description="Gameplay programming, tools, shaders and systems built in Unity."
+          description="I develop gameplay systems, tools and visual effects in Unity. My experience includes player controllers, game logic, editor tooling, shaders and performance-conscious implementations."
           projects={[
-            { title: "Puzzle Game", description: "Grid-based mechanics and progression." },
-            { title: "Action Prototype", description: "Movement, combat and effects." },
+            {
+              title: "Puzzle Game Prototype",
+              description:
+                "Grid-based puzzle mechanics, progression systems and level logic built in Unity.",
+            },
+            {
+              title: "Action Gameplay Prototype",
+              description:
+                "Character movement, combat systems, feedback effects and prototyping workflows.",
+            },
           ]}
         />
 
         <ExpandableCard
-          title="Video Editing"
+          title="Video Editing & Motion"
           subtitle="After Effects & Motion Design"
           icons={["🎬", "🌀", "✨"]}
-          description="Motion graphics, animated UI, transitions and visual storytelling."
+          description="I create motion graphics and animated content using After Effects, focusing on clarity, rhythm and visual storytelling. This includes UI animations, promos, logo animations and transitions."
           projects={[
-            { title: "Promo Video", description: "Short promotional motion piece." },
-            { title: "Logo Animation", description: "Animated logo reveal." },
+            {
+              title: "Promotional Motion Video",
+              description:
+                "Short-form promotional video combining typography, motion and visual pacing.",
+            },
+            {
+              title: "Logo Animation",
+              description:
+                "Animated logo reveal designed for digital platforms and brand identity.",
+            },
           ]}
         />
       </section>
@@ -258,28 +364,27 @@ export default function App() {
           role="Frontend Developer Intern"
           company="ERP Sirmium"
           period="2023"
-          description="Worked on frontend features, UI improvements and integration with backend systems."
+          description="Worked on frontend development tasks, UI improvements and integration with backend services. Focused on improving usability, maintaining clean code and collaborating within an existing product codebase."
         />
 
         <ExperienceCard
           role="Operation Engineer / Unity Developer"
           company="Replai"
           period="2024"
-          description="Developed Unity-based gameplay systems, tools and interactive features."
+          description="Worked on Unity-based systems, tools and gameplay features. Contributed to prototyping, iteration workflows and implementation of interactive systems used in production."
         />
       </section>
 
       {/* EDUCATION */}
       <section id="education" className="relative max-w-6xl mx-auto px-6 py-32">
-        <h2 className="text-3xl font-bold mb-24 text-center">Education</h2>
+        <h2 className="text-3xl font-bold mb-32 text-center">Education</h2>
 
-        {/* Timeline line */}
-        <div className="pointer-events-none absolute left-1/2 top-48 bottom-24 -translate-x-1/2">
-          <div className="absolute inset-0 w-[2px] bg-gradient-to-b from-indigo-400 via-purple-500/70 to-transparent" />
-          <div className="absolute inset-0 w-[6px] bg-gradient-to-b from-indigo-500/40 via-purple-500/20 to-transparent blur-xl" />
+        <div className="pointer-events-none absolute left-1/2 top-[420px] bottom-[180px] -translate-x-1/2">
+          <div className="absolute inset-0 w-[2px] bg-indigo-500/60" />
+          <div className="absolute inset-0 w-[6px] bg-indigo-500/30 blur-xl" />
         </div>
 
-        <div className="space-y-32">
+        <div className="space-y-32 relative z-10">
           <EducationCard
             title="Master Studies – Computer Engineering"
             school="VIŠER – School of Electrical and Computer Engineering"
@@ -307,22 +412,49 @@ export default function App() {
 
       {/* CONTACT */}
       <section id="contact" className="max-w-6xl mx-auto px-6 py-32">
-        <h2 className="text-3xl font-bold mb-8">Contact</h2>
+        <h2 className="text-3xl font-bold mb-12 text-center">Contact</h2>
 
-        <div className="grid md:grid-cols-2 gap-12">
-          <div className="space-y-4 text-slate-300">
-            <p>
-              Interested in collaboration, freelance work or opportunities?
-              Feel free to reach out.
+        <div className="grid md:grid-cols-2 gap-12 items-start">
+          <div className="space-y-6 text-slate-300">
+            <p className="text-lg leading-relaxed">
+              If you’re interested in collaboration, freelance work or
+              full-time opportunities, feel free to reach out. I’m always
+              open to discussing new ideas and interesting projects.
             </p>
-            <p className="text-indigo-400">email@example.com</p>
-            <p className="text-indigo-400">+381 60 123 4567</p>
+
+            <div className="space-y-2">
+              <p className="text-indigo-300 font-medium">
+                📧 email@example.com
+              </p>
+              <p className="text-indigo-300 font-medium">
+                📞 +381 60 123 4567
+              </p>
+            </div>
           </div>
 
-          <div className="flex flex-col gap-4 text-indigo-400">
-            <a href="#" className="hover:underline">LinkedIn</a>
-            <a href="#" className="hover:underline">GitHub</a>
-            <a href="#" className="hover:underline">Portfolio</a>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {[
+              ["🔗", "LinkedIn"],
+              ["💻", "GitHub"],
+              ["📁", "Portfolio"],
+              ["✉️", "Send Email"],
+            ].map(([icon, label]) => (
+              <a
+                key={label}
+                href="#"
+                className="
+                  flex items-center gap-3 rounded-2xl border border-white/10
+                  bg-slate-900/80 p-5
+                  transition-all duration-300
+                  shadow-[0_0_22px_rgba(99,102,241,0.25)]
+                  hover:shadow-[0_0_40px_rgba(99,102,241,0.5)]
+                  hover:-translate-y-1
+                "
+              >
+                <span className="text-2xl">{icon}</span>
+                <span className="font-semibold">{label}</span>
+              </a>
+            ))}
           </div>
         </div>
       </section>
