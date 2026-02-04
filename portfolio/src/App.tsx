@@ -207,16 +207,17 @@ export default function App() {
       </header>
 
 {/* HERO */}
-<section className="relative min-h-screen flex items-center">
-  {/* background accent */}
+<section className="relative min-h-[90vh] flex items-start overflow-hidden">
+
+  {/* background accents */}
   <div className="pointer-events-none absolute inset-0">
     <div className="absolute -top-40 -left-40 w-[600px] h-[600px] bg-indigo-600/20 blur-3xl rounded-full" />
-    <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-purple-600/20 blur-3xl rounded-full" />
   </div>
 
-  <div className="relative max-w-6xl mx-auto px-6 w-full">
-    <div className="grid md:grid-cols-2 gap-16 items-center">
-      {/* LEFT — TEXT */}
+  <div className="relative max-w-6xl mx-auto px-6 w-full pt-[16vh]
+">
+    <div className="grid md:grid-cols-2 gap-20 items-center">
+      {/* TEXT */}
       <div>
         <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight">
           Marko Bakula
@@ -226,25 +227,22 @@ export default function App() {
           Frontend · Game · Motion Developer
         </p>
 
-        <p className="mt-10 max-w-xl text-slate-300 leading-relaxed text-lg md:text-xl">
+        <p className="mt-8 max-w-xl text-slate-300 leading-relaxed text-lg">
           I design and build interactive digital experiences across web,
-          games and motion. My work emphasizes strong visual feedback,
-          intuitive user experience and clean, maintainable systems.
-          I enjoy bridging technical engineering with creative expression,
-          crafting products that feel polished, responsive and purposeful.
+          games and motion. My work focuses on strong visual feedback,
+          intuitive user experience and clean, maintainable systems —
+          bridging engineering precision with creative expression.
         </p>
 
-        {/* CTA row */}
-        <div className="mt-14 flex flex-wrap gap-6">
+        <div className="mt-12 flex flex-wrap gap-6">
           <a
             href="#contact"
             className="
-              inline-flex items-center justify-center
-              rounded-xl px-7 py-3 font-semibold
-              bg-indigo-600/90
-              shadow-[0_0_35px_rgba(99,102,241,0.7)]
+              px-7 py-3 rounded-xl font-semibold
+              bg-indigo-600
+              shadow-[0_0_30px_rgba(99,102,241,0.6)]
               hover:bg-indigo-500
-              hover:shadow-[0_0_55px_rgba(99,102,241,0.9)]
+              hover:shadow-[0_0_50px_rgba(99,102,241,0.9)]
               transition-all
             "
           >
@@ -254,8 +252,7 @@ export default function App() {
           <a
             href="#skills"
             className="
-              inline-flex items-center justify-center
-              rounded-xl px-7 py-3 font-semibold
+              px-7 py-3 rounded-xl font-semibold
               border border-white/15
               text-slate-200
               hover:border-indigo-400
@@ -263,24 +260,22 @@ export default function App() {
               transition-all
             "
           >
-            View Work
+            View Skills
           </a>
         </div>
       </div>
 
-      {/* RIGHT — IMAGE */}
-      <div className="relative flex justify-center md:justify-end mt-16 md:mt-0">
-        {/* glow */}
-        <div className="absolute w-80 h-80 rounded-full bg-indigo-500/30 blur-3xl" />
+      {/* IMAGE */}
+      <div className="relative flex justify-center md:justify-end">
+        <div className="absolute w-80 h-80 bg-indigo-500/30 blur-3xl rounded-full" />
 
-        {/* image container */}
         <div
           className="
             relative w-72 h-72 md:w-80 md:h-80 rounded-full
             overflow-hidden
             border border-white/15
-            bg-gradient-to-br from-slate-800 to-slate-900
-            shadow-[0_0_55px_rgba(99,102,241,0.5)]
+            bg-slate-900
+            shadow-[0_0_50px_rgba(99,102,241,0.5)]
           "
         >
           <img
@@ -294,72 +289,132 @@ export default function App() {
   </div>
 </section>
 
+{/* SKILLS */}
+<section
+  id="skills"
+  className="
+    relative py-28
+    bg-gradient-to-b from-slate-950 via-slate-900/60 to-slate-950
+  "
+>
+
+  {/* background accent */}
+  <div className="pointer-events-none absolute inset-0">
+    <div className="absolute top-24 left-1/2 -translate-x-1/2 w-[900px] h-[900px] bg-indigo-600/15 blur-3xl rounded-full" />
+  </div>
+
+  <div className="relative max-w-6xl mx-auto px-6">
+    {/* section header */}
+    <div className="text-center max-w-2xl mx-auto mb-24">
+      <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight">
+        Skills & Focus
+      </h2>
+      <p className="mt-6 text-slate-300 text-lg md:text-xl leading-relaxed">
+        My work spans multiple disciplines, but always with an emphasis on
+        strong visual feedback, intuitive interaction and clean,
+        maintainable systems.
+      </p>
+    </div>
+
+    {/* cards */}
+    <div className="space-y-16">
+      {/* Web */}
+      <ExpandableCard
+        title="Web Development"
+        subtitle="Frontend Architecture & UI Engineering"
+        icons={["🌐", "⚛️", "🎨"]}
+        description="I specialize in building modern, responsive and animated web interfaces using React, TypeScript and Tailwind. My focus is on clean component architecture, performance, accessibility and creating interfaces that feel responsive and polished."
+        projects={[
+          {
+            title: "Portfolio Website",
+            description:
+              "Personal portfolio focused on motion, smooth interactions and scalable component structure.",
+          },
+          {
+            title: "Admin Dashboard",
+            description:
+              "Data-driven dashboard with charts, filters, reusable UI components and responsive layouts.",
+          },
+        ]}
+      />
+
+      {/* Game */}
+      <ExpandableCard
+        title="Game Development"
+        subtitle="Unity, Gameplay Systems & Tools"
+        icons={["🎮", "🧠", "✨"]}
+        description="I develop gameplay systems, tools and visual effects in Unity. My experience includes player controllers, game logic, editor tooling, shaders and performance-conscious implementations."
+        projects={[
+          {
+            title: "Puzzle Game Prototype",
+            description:
+              "Grid-based puzzle mechanics, progression systems and level logic built in Unity.",
+          },
+          {
+            title: "Action Gameplay Prototype",
+            description:
+              "Character movement, combat systems, feedback effects and prototyping workflows.",
+          },
+        ]}
+      />
+
+      {/* Motion */}
+      <ExpandableCard
+        title="Video Editing & Motion"
+        subtitle="After Effects & Motion Design"
+        icons={["🎬", "🌀", "✨"]}
+        description="I create motion graphics and animated content using After Effects, focusing on clarity, rhythm and visual storytelling."
+        projects={[
+          {
+            title: "Promotional Motion Video",
+            description:
+              "Short-form promotional video combining typography, motion and visual pacing.",
+          },
+          {
+            title: "Logo Animation",
+            description:
+              "Animated logo reveal designed for digital platforms and brand identity.",
+          },
+        ]}
+      />
+    </div>
+  </div>
+</section>
 
 
-      {/* SKILLS */}
-      <section id="skills" className="max-w-6xl mx-auto px-6 space-y-10">
-        <ExpandableCard
-          title="Web Development"
-          subtitle="Frontend Architecture & UI Engineering"
-          icons={["🌐", "⚛️", "🎨"]}
-          description="I specialize in building modern, responsive and animated web interfaces using React, TypeScript and Tailwind. My focus is on clean component architecture, performance, accessibility and creating interfaces that feel responsive and polished."
-          projects={[
-            {
-              title: "Portfolio Website",
-              description:
-                "Personal portfolio focused on motion, smooth interactions and scalable component structure.",
-            },
-            {
-              title: "Admin Dashboard",
-              description:
-                "Data-driven dashboard with charts, filters, reusable UI components and responsive layouts.",
-            },
-          ]}
-        />
+ {/* EXPERIENCE */}
+<section
+  id="experience"
+  className="
+    relative min-h-screen
+    flex items-center
+  "
+>
+  {/* background accent */}
+  <div className="pointer-events-none absolute inset-0">
+    <div className="absolute -top-40 right-[-200px] w-[700px] h-[700px] bg-indigo-600/15 blur-3xl rounded-full" />
+  </div>
 
-        <ExpandableCard
-          title="Game Development"
-          subtitle="Unity, Gameplay Systems & Tools"
-          icons={["🎮", "🧠", "✨"]}
-          description="I develop gameplay systems, tools and visual effects in Unity. My experience includes player controllers, game logic, editor tooling, shaders and performance-conscious implementations."
-          projects={[
-            {
-              title: "Puzzle Game Prototype",
-              description:
-                "Grid-based puzzle mechanics, progression systems and level logic built in Unity.",
-            },
-            {
-              title: "Action Gameplay Prototype",
-              description:
-                "Character movement, combat systems, feedback effects and prototyping workflows.",
-            },
-          ]}
-        />
+  <div className="relative max-w-6xl mx-auto px-6 w-full py-32">
+    <div className="grid md:grid-cols-2 gap-20 items-start">
+      
+      {/* LEFT – INTRO */}
+      <div className="sticky top-32">
+        <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight">
+          Work Experience
+        </h2>
 
-        <ExpandableCard
-          title="Video Editing & Motion"
-          subtitle="After Effects & Motion Design"
-          icons={["🎬", "🌀", "✨"]}
-          description="I create motion graphics and animated content using After Effects, focusing on clarity, rhythm and visual storytelling. This includes UI animations, promos, logo animations and transitions."
-          projects={[
-            {
-              title: "Promotional Motion Video",
-              description:
-                "Short-form promotional video combining typography, motion and visual pacing.",
-            },
-            {
-              title: "Logo Animation",
-              description:
-                "Animated logo reveal designed for digital platforms and brand identity.",
-            },
-          ]}
-        />
-      </section>
+        <p className="mt-6 text-slate-300 text-lg leading-relaxed max-w-md">
+          Hands-on experience across frontend development and real-time
+          interactive systems, working in both structured product teams
+          and fast-moving technical environments.
+        </p>
 
-      {/* EXPERIENCE */}
-      <section id="experience" className="max-w-6xl mx-auto px-6 py-32 space-y-8">
-        <h2 className="text-3xl font-bold">Work Experience</h2>
+        <div className="mt-10 h-1 w-24 rounded-full bg-indigo-500 shadow-[0_0_25px_rgba(99,102,241,0.8)]" />
+      </div>
 
+      {/* RIGHT – CARDS */}
+      <div className="space-y-10">
         <ExperienceCard
           role="Frontend Developer Intern"
           company="ERP Sirmium"
@@ -373,42 +428,81 @@ export default function App() {
           period="2024"
           description="Worked on Unity-based systems, tools and gameplay features. Contributed to prototyping, iteration workflows and implementation of interactive systems used in production."
         />
-      </section>
+      </div>
+    </div>
+  </div>
+</section>
+{/* EDUCATION */}
+<section
+  id="education"
+  className="
+    relative
+    max-w-6xl mx-auto px-6
+    py-28
+  "
+>
+  <div className="grid md:grid-cols-[1.6fr_1fr] gap-20 items-start">
+    
+    {/* LEFT — TIMELINE */}
+    <div className="relative">
+      {/* vertical line */}
+      <div className="pointer-events-none absolute left-1/2 top-[120px] bottom-0 -translate-x-1/2">
 
-      {/* EDUCATION */}
-      <section id="education" className="relative max-w-6xl mx-auto px-6 py-32">
-        <h2 className="text-3xl font-bold mb-32 text-center">Education</h2>
+        <div className="absolute inset-0 w-[2px] bg-indigo-500/60" />
+        <div className="absolute inset-0 w-[6px] bg-indigo-500/30 blur-xl" />
+      </div>
 
-        <div className="pointer-events-none absolute left-1/2 top-[420px] bottom-[180px] -translate-x-1/2">
-          <div className="absolute inset-0 w-[2px] bg-indigo-500/60" />
-          <div className="absolute inset-0 w-[6px] bg-indigo-500/30 blur-xl" />
-        </div>
+      <div className="space-y-32 relative z-10">
+        <EducationCard
+          title="Master Studies – Computer Engineering"
+          school="VIŠER – School of Electrical and Computer Engineering"
+          period="2024 – Present"
+          big
+          current
+          align="left"
+        />
 
-        <div className="space-y-32 relative z-10">
-          <EducationCard
-            title="Master Studies – Computer Engineering"
-            school="VIŠER – School of Electrical and Computer Engineering"
-            period="2024 – Present"
-            big
-            current
-            align="left"
-          />
+        <EducationCard
+          title="Bachelor Studies – Business Informatics"
+          school="VIŠER – School of Electrical and Computer Engineering"
+          period="2021 – 2024"
+          align="right"
+        />
 
-          <EducationCard
-            title="Bachelor Studies – Business Informatics"
-            school="VIŠER – School of Electrical and Computer Engineering"
-            period="2021 – 2024"
-            align="right"
-          />
+        <EducationCard
+          title="Technical High School"
+          school="Nikola Tesla Technical School"
+          period="2017 – 2021"
+          align="left"
+        />
+      </div>
+    </div>
 
-          <EducationCard
-            title="Technical High School"
-            school="Nikola Tesla Technical School"
-            period="2017 – 2021"
-            align="left"
-          />
-        </div>
-      </section>
+    {/* RIGHT — STICKY TEXT */}
+    <div className="sticky top-32">
+      <h3 className="text-4xl md:text-5xl font-extrabold tracking-tight">
+        Education
+      </h3>
+
+      <p className="mt-6 text-slate-300 text-lg leading-relaxed max-w-md">
+        My academic path is centered around computer engineering with a
+        strong focus on applied knowledge, system design and real-world
+        problem solving.
+      </p>
+
+      <p className="mt-4 text-slate-400 leading-relaxed max-w-md">
+        I treat education as an evolving process — combining formal
+        studies with independent exploration of game development,
+        frontend architecture and interactive systems.
+      </p>
+
+      <div className="mt-10 h-1 w-24 rounded-full bg-indigo-500 shadow-[0_0_25px_rgba(99,102,241,0.8)]" />
+    </div>
+  </div>
+</section>
+
+
+
 
       {/* CONTACT */}
       <section id="contact" className="max-w-6xl mx-auto px-6 py-32">
