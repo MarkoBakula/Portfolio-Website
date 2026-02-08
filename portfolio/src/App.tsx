@@ -191,26 +191,32 @@ export default function App() {
   return (
     <div className="min-h-screen bg-slate-950 text-white">
       {/* HEADER */}
-      <header className="sticky top-0 z-50 bg-slate-950/80 backdrop-blur border-b border-white/10">
-        <nav className="max-w-6xl mx-auto px-6 py-7 flex items-center justify-between">
-          <div className="flex gap-8 text-sm font-medium">
-            <a href="#skills" className="hover:text-indigo-300">Skills</a>
-            <a href="#experience" className="hover:text-indigo-300">Experience</a>
-            <a href="#education" className="hover:text-indigo-300">Education</a>
-            <a href="#contact" className="hover:text-indigo-300">Contact</a>
-          </div>
+      <header className="sticky top-0 z-50 border-b border-white/10">
+  {/* blur layer */}
+  <div className="absolute inset-0 bg-slate-950/80 backdrop-blur" />
 
-          <div className="font-extrabold text-xl tracking-wide">
-            Marko Bakula
-          </div>
-        </nav>
-      </header>
+  <nav className="relative max-w-6xl mx-auto px-6 py-7 flex items-center justify-between">
+    <div className="flex gap-8 text-base font-semibold">
+
+      <a href="#skills" className="hover:text-indigo-300">Skills</a>
+      <a href="#experience" className="hover:text-indigo-300">Experience</a>
+      <a href="#education" className="hover:text-indigo-300">Education</a>
+      <a href="#contact" className="hover:text-indigo-300">Contact</a>
+    </div>
+
+    <div className="font-extrabold text-xl tracking-wide">
+      Marko Bakula
+    </div>
+  </nav>
+</header>
+
 
 {/* HERO */}
-<section className="relative min-h-[90vh] flex items-start overflow-hidden">
+<section className="relative min-h-[90vh] flex items-start">
 
   {/* background accents */}
-  <div className="pointer-events-none absolute inset-0">
+<div className="pointer-events-none absolute inset-0 overflow-hidden">
+
     <div className="absolute -top-40 -left-40 w-[600px] h-[600px] bg-indigo-600/20 blur-3xl rounded-full" />
   </div>
 
@@ -265,26 +271,47 @@ export default function App() {
         </div>
       </div>
 
-      {/* IMAGE */}
-      <div className="relative flex justify-center md:justify-end">
-        <div className="absolute w-80 h-80 bg-indigo-500/30 blur-3xl rounded-full" />
+{/* IMAGE */}
+<div className="relative hidden md:block">
+  <div
+    className="
+      absolute right-0 top-1/2 -translate-y-1/2
+      w-[55vw] h-[70vh]
+      max-w-[900px]
+    "
+  >
+    <img
+      src="/MyPhoto.png"
+      alt="Marko Bakula"
+      className="
+        w-full h-full object-cover
+        opacity-90
 
-        <div
-          className="
-            relative w-72 h-72 md:w-80 md:h-80 rounded-full
-            overflow-hidden
-            border border-white/15
-            bg-slate-900
-            shadow-[0_0_50px_rgba(99,102,241,0.5)]
-          "
-        >
-          <img
-            src="/profile.jpg"
-            alt="Marko Bakula"
-            className="w-full h-full object-cover"
-          />
-        </div>
-      </div>
+        /* primary fade into page */
+        [mask-image:linear-gradient(to_left,black_45%,transparent_100%)]
+        [-webkit-mask-image:linear-gradient(to_left,black_45%,transparent_100%)]
+
+        /* subtle softness */
+        blur-[0.3px]
+      "
+    />
+
+    {/* ambient blend layer */}
+    <div
+      className="
+        pointer-events-none
+        absolute inset-0
+        bg-gradient-to-left
+        from-slate-950/60
+        via-slate-950/20
+        to-transparent
+      "
+    />
+  </div>
+</div>
+
+
+
     </div>
   </div>
 </section>
@@ -293,9 +320,10 @@ export default function App() {
 <section
   id="skills"
   className="
-    relative py-28
-    bg-gradient-to-b from-slate-950 via-slate-900/60 to-slate-950
-  "
+  relative pt-16 pb-28
+  bg-gradient-to-b from-slate-950 via-slate-900/60 to-slate-950
+"
+
 >
 
   {/* background accent */}
