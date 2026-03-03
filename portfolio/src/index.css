@@ -1,7 +1,34 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
-html, body, #root {
+/* =========================
+   DESIGN TOKENS (COLORS)
+   ========================= */
+
+:root {
+  /* Brand colors */
+  --color-primary: 99 102 241;     /* indigo-500 */
+  --color-secondary: 129 140 248;  /* indigo-400 */
+  --color-tertiary: 30 41 59;      /* slate-800 */
+
+  /* Backgrounds */
+  --bg-main: 2 6 23;               /* slate-950 */
+  --bg-surface: 15 23 42;          /* slate-900 */
+
+  /* Text */
+  --text-primary: 248 250 252;     /* slate-50 */
+  --text-secondary: 203 213 225;   /* slate-300 */
+}
+
+/* =========================
+   GLOBAL BASE
+   ========================= */
+
+html,
+body,
+#root {
   height: 100%;
   margin: 0;
   padding: 0;
+  background-color: rgb(var(--bg-main));
+  color: rgb(var(--text-primary));
 }
