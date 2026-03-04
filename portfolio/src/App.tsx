@@ -33,7 +33,7 @@ function ProjectCard({ project }: { project: Project }) {
     <div 
       className="
         rounded-xl border border-white/10 
-        bg-gradient-to-br from-slate-900/90 to-slate-950/90
+        bg-gradient-to-br from-slate-800/90 to-slate-900/90
         overflow-hidden
         transition-all duration-300
         hover:border-indigo-400/50
@@ -95,7 +95,7 @@ function ProjectCard({ project }: { project: Project }) {
       >
         <div className="overflow-hidden">
           <div className="p-6 pt-0 border-t border-white/10">
-            <div className="grid md:grid-cols-2 gap-8">
+            <div className="grid md:grid-cols-2 gap-10 mt-4">
               {/* Left side - Full Description with better styling */}
               <div className="space-y-5">
                 <div className="prose prose-invert">
@@ -139,7 +139,7 @@ function ProjectCard({ project }: { project: Project }) {
 
               {/* Right side - GIF with improved styling */}
               <div 
-                className="relative aspect-video rounded-xl overflow-hidden bg-slate-950/70 shadow-2xl ring-1 ring-white/10 group"
+                className="relative aspect-video rounded-xl overflow-hidden bg-slate-900/70 shadow-2xl ring-1 ring-white/10 group"
                 onClick={(e) => e.stopPropagation()}
               >
                 <img
@@ -200,7 +200,7 @@ function ExpandableCard({
       onClick={handleMainCardClick}
       className={`
         cursor-pointer rounded-3xl border border-white/10
-        bg-gradient-to-br from-slate-900 via-slate-950 to-black
+        bg-gradient-to-br from-slate-800 via-slate-900 to-slate-950
         p-8 transition-all duration-500
         shadow-[0_0_30px_rgba(99,102,241,0.25)]
         hover:shadow-[0_0_55px_rgba(99,102,241,0.45)]
@@ -281,7 +281,7 @@ function ExperienceCard({
   return (
     <div
       className="
-        rounded-2xl bg-gradient-to-br from-slate-900 to-slate-950
+        rounded-2xl bg-gradient-to-br from-slate-800 to-slate-900
         border border-white/10 p-6
         shadow-[0_0_25px_rgba(99,102,241,0.25)]
         hover:shadow-[0_0_45px_rgba(99,102,241,0.45)]
@@ -333,8 +333,8 @@ function EducationCard({
           transition-all duration-500
           ${
             big
-              ? "w-full md:w-[75%] p-10 scale-[1.06] bg-gradient-to-br from-indigo-900/25 via-slate-900 to-slate-950"
-              : "w-full md:w-[52%] p-8 bg-gradient-to-br from-slate-900 to-slate-950"
+              ? "w-full md:w-[75%] p-10 scale-[1.06] bg-gradient-to-br from-indigo-900/25 via-slate-800 to-slate-900"
+              : "w-full md:w-[52%] p-8 bg-gradient-to-br from-slate-800 to-slate-900"
           }
           ${
             current
@@ -378,7 +378,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white overflow-x-hidden">
+    <div className="min-h-screen bg-slate-900 text-white overflow-x-hidden">
       {/* HEADER */}
       <header className="fixed top-0 left-0 w-full z-50">
         <nav
@@ -386,7 +386,7 @@ export default function App() {
             w-full
             px-8 md:px-12 py-5
             flex items-center justify-between
-            bg-slate-950/80
+            bg-slate-900/80
             backdrop-blur-xl
             border-b border-white/5
             shadow-[0_4px_30px_rgba(0,0,0,0.3)]
@@ -472,7 +472,7 @@ export default function App() {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden relative w-12 h-12 rounded-xl border border-white/10 bg-slate-900/50 hover:bg-slate-900/80 transition-colors"
+            className="md:hidden relative w-12 h-12 rounded-xl border border-white/10 bg-slate-800/50 hover:bg-slate-800/80 transition-colors"
             aria-label="Toggle menu"
           >
             <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
@@ -487,7 +487,7 @@ export default function App() {
         <div className={`
           md:hidden
           absolute top-[73px] left-0 w-full
-          bg-slate-950/95 backdrop-blur-xl
+          bg-slate-900/95 backdrop-blur-xl
           border-b border-white/5
           shadow-2xl
           transition-all duration-300
@@ -625,8 +625,8 @@ export default function App() {
                     pointer-events-none
                     absolute inset-0
                     bg-gradient-to-left
-                    from-slate-950/60
-                    via-slate-950/20
+                    from-slate-900/60
+                    via-slate-900/20
                     to-transparent
                   "
                 />
@@ -641,7 +641,7 @@ export default function App() {
         id="skills"
         className="
           relative pt-16 pb-28
-          bg-gradient-to-b from-slate-950 via-slate-900/60 to-slate-950
+          bg-gradient-to-b from-slate-900 via-slate-800/60 to-slate-900
         "
       >
         {/* background accent */}
@@ -914,7 +914,7 @@ export default function App() {
                 rel="noopener noreferrer"
                 className="
                   flex items-center gap-3 rounded-2xl border border-white/10
-                  bg-slate-900/80 p-5
+                  bg-slate-800/80 p-5
                   transition-all duration-300
                   shadow-[0_0_22px_rgba(99,102,241,0.25)]
                   hover:shadow-[0_0_40px_rgba(99,102,241,0.5)]
