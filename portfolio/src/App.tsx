@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 type Project = {
   title: string;
@@ -38,7 +38,6 @@ type EducationCardProps = {
   align: "left" | "right";
   big?: boolean;
   current?: boolean;
-  logoPosition?: "left" | "right";
 };
 
 function ProjectCard({ project, category }: { project: Project; category: 'web' | 'game' | 'motion' }) {
@@ -531,16 +530,15 @@ function EducationCard({
   align,
   big,
   current,
-  logoPosition = "left",
 }: EducationCardProps) {
   return (
     <div
       className={`relative flex ${
-        align === "left" ? "justify-start pr-8" : "justify-end pl-8"
+        align === "left" ? "justify-start md:pr-8" : "justify-end md:pl-8"
       }`}
     >
       {!big && (
-        <span className="absolute left-1/2 top-12 -translate-x-1/2 z-0">
+        <span className="absolute left-1/2 top-12 -translate-x-1/2 z-0 hidden md:block">
           <span className="block w-4 h-4 rounded-full bg-indigo-400" />
           <span className="absolute inset-0 rounded-full bg-indigo-400 blur-xl opacity-60" />
         </span>
@@ -548,33 +546,33 @@ function EducationCard({
 
       <div
         className={`
-          relative z-10 rounded-3xl border border-white/10
+          relative w-full ${big ? "md:w-4/5" : "md:w-3/5"} 
+          rounded-3xl border border-white/10
+          bg-linear-to-br from-slate-800 to-slate-900
+          p-6 md:p-8
           transition-all duration-500
-          ${
-            big
-              ? "w-full md:w-3/4 p-8 scale-[1.06] bg-linear-to-br from-indigo-900/25 via-slate-800 to-slate-900"
-              : "w-full md:w-1/2 p-8 bg-linear-to-br from-slate-800 to-slate-900"
-          }
           ${
             current
               ? "shadow-[0_0_70px_rgba(99,102,241,0.6)] hover:shadow-[0_0_100px_rgba(99,102,241,0.85)]"
               : "shadow-[0_0_30px_rgba(99,102,241,0.3)] hover:shadow-[0_0_55px_rgba(99,102,241,0.5)]"
           }
           hover:-translate-y-2
-          flex gap-4 items-start
           overflow-hidden
         `}
       >
-        <div className="absolute top-0 right-0 w-16 h-16 overflow-hidden pointer-events-none">
+        {/* Corner decorations - now behind content */}
+        <div className="absolute top-0 right-0 w-16 h-16 overflow-hidden pointer-events-none z-0">
           <div className="absolute top-0 right-0 w-8 h-8 bg-white/5 rotate-45 translate-x-4 -translate-y-4" />
         </div>
-        <div className="absolute bottom-0 left-0 w-16 h-16 overflow-hidden pointer-events-none">
+        <div className="absolute bottom-0 left-0 w-16 h-16 overflow-hidden pointer-events-none z-0">
           <div className="absolute bottom-0 left-0 w-8 h-8 bg-white/5 rotate-45 -translate-x-4 translate-y-4" />
         </div>
-        
-        {logoPosition === "left" && (
-          <div className="shrink-0 relative z-10">
-            <div className={`${big ? 'w-20 h-20' : 'w-16 h-16'} rounded-xl bg-indigo-500/30 border border-indigo-500/40 overflow-hidden flex items-center justify-center p-2 backdrop-blur-sm`}>
+
+        {/* Content - now above decorations */}
+        <div className="relative z-10 flex flex-col md:flex-row md:items-start gap-4 md:gap-6">
+          {/* Logo */}
+          <div className="shrink-0">
+            <div className={`${big ? 'w-20 h-20' : 'w-16 h-16'} rounded-xl bg-indigo-500/30 border border-indigo-500/40 overflow-hidden flex items-center justify-center p-2 backdrop-blur-sm shadow-lg shadow-indigo-500/30`}>
               <img 
                 src={logo} 
                 alt={`${school} logo`}
@@ -582,40 +580,34 @@ function EducationCard({
               />
             </div>
           </div>
-        )}
 
-        <div className="flex-1 relative z-10">
-          {current && (
-            <span
-              className="
-                absolute -top-5 right-10 px-5 py-1 text-xs font-bold tracking-widest
-                rounded-full bg-indigo-600
-                shadow-[0_0_20px_rgba(99,102,241,0.8)]
-              "
-            >
-              CURRENT
-            </span>
-          )}
-
-          <h3 className={`font-extrabold ${big ? "text-3xl" : "text-xl"}`}>
-            {title}
-          </h3>
-
-          <p className="text-indigo-300 mt-2">{school}</p>
-          <p className="text-sm text-slate-400 mt-4">{period}</p>
+          {/* Content - Study Level, Course Name, School, Period */}
+          <div className="flex-1 min-w-0">
+            {current && (
+              <span className="inline-block mb-2 px-3 py-1 text-xs font-bold tracking-widest rounded-full bg-indigo-600 shadow-[0_0_20px_rgba(99,102,241,0.8)]">
+                CURRENT
+              </span>
+            )}
+            {/* Study Level (Master's, Bachelor's, High School) */}
+            <h3 className={`font-extrabold ${big ? "text-xl md:text-2xl" : "text-lg md:text-xl"} text-white`}>
+              {title}
+            </h3>
+            {/* Course/Smer Name */}
+            <p className="text-indigo-300 text-base md:text-lg mt-1 font-medium">
+              {title.includes("Master's") ? "Computer Engineering" : 
+               title.includes("Bachelor's") ? "Business Informatics" : 
+               "Constructive Mechanical Engineering"}
+            </p>
+            {/* School Name */}
+            <p className="text-slate-300 text-sm md:text-base mt-1">
+              {school}
+            </p>
+            {/* Period */}
+            <p className="text-xs text-slate-400 mt-2 md:mt-3">
+              {period}
+            </p>
+          </div>
         </div>
-
-        {logoPosition === "right" && (
-          <div className="shrink-0 relative z-10">
-            <div className={`${big ? 'w-20 h-20' : 'w-16 h-16'} rounded-xl bg-indigo-500/30 border border-indigo-500/40 overflow-hidden flex items-center justify-center p-2 backdrop-blur-sm`}>
-              <img 
-                src={logo} 
-                alt={`${school} logo`}
-                className="w-full h-full object-contain"
-              />
-            </div>
-          </div>
-        )}
       </div>
     </div>
   );
@@ -625,7 +617,7 @@ function EducationCard({
 const SectionSeparator = () => (
   <div className="relative w-full bg-slate-900">
     <div className="max-w-7xl mx-auto px-6">
-      <div className="w-full h-px bg-gradient-to-r from-transparent via-indigo-400 to-transparent opacity-60" />
+      <div className="w-full h-px bg-linear-to-r from-transparent via-indigo-400 to-transparent opacity-60" />
     </div>
   </div>
 );
@@ -634,6 +626,27 @@ export default function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  
+  // Refs for cards
+  const webCardRef = useRef<HTMLDivElement>(null);
+  const gameCardRef = useRef<HTMLDivElement>(null);
+  const motionCardRef = useRef<HTMLDivElement>(null);
+
+  // Predefined particle positions - fixed values to avoid Math.random issues
+  const particles = [
+    { left: '15%', top: '25%', delay: '0.5s', duration: '4s' },
+    { left: '45%', top: '15%', delay: '1.2s', duration: '5s' },
+    { left: '75%', top: '35%', delay: '0.8s', duration: '6s' },
+    { left: '25%', top: '65%', delay: '1.5s', duration: '3.5s' },
+    { left: '55%', top: '80%', delay: '0.3s', duration: '5.5s' },
+    { left: '85%', top: '55%', delay: '2.0s', duration: '4.5s' },
+    { left: '10%', top: '90%', delay: '1.8s', duration: '5s' },
+    { left: '35%', top: '45%', delay: '0.2s', duration: '6.5s' },
+    { left: '65%', top: '70%', delay: '1.0s', duration: '4s' },
+    { left: '95%', top: '10%', delay: '2.2s', duration: '5s' },
+    { left: '20%', top: '40%', delay: '0.7s', duration: '5.5s' },
+    { left: '70%', top: '20%', delay: '1.3s', duration: '4.5s' },
+  ];
 
   useEffect(() => {
     const handleScroll = () => {
@@ -641,6 +654,7 @@ export default function App() {
     };
 
     const handleMouseMove = (e: MouseEvent) => {
+      // Update mouse position for the glow effect
       setMousePosition({ x: e.clientX, y: e.clientY });
     };
 
@@ -666,6 +680,40 @@ export default function App() {
       }
     }
     setMobileMenuOpen(false);
+  };
+
+  const handleCategoryClick = (category: 'web' | 'game' | 'motion', e: React.MouseEvent) => {
+    e.preventDefault();
+    
+    // Scroll to skills section
+    const skillsSection = document.getElementById('skills');
+    if (skillsSection) {
+      skillsSection.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      });
+      
+      // Small delay to let scroll complete before trying to open the card
+      setTimeout(() => {
+        let targetCard: HTMLDivElement | null = null;
+        
+        if (category === 'web' && webCardRef.current) {
+          targetCard = webCardRef.current;
+        } else if (category === 'game' && gameCardRef.current) {
+          targetCard = gameCardRef.current;
+        } else if (category === 'motion' && motionCardRef.current) {
+          targetCard = motionCardRef.current;
+        }
+        
+        if (targetCard) {
+          // Find the clickable element inside the card (the header)
+          const clickableHeader = targetCard.querySelector('.cursor-pointer');
+          if (clickableHeader) {
+            (clickableHeader as HTMLElement).click();
+          }
+        }
+      }, 500);
+    }
   };
 
   return (
@@ -783,93 +831,150 @@ export default function App() {
 
       <div className="h-18.25" />
 
-      {/* Animated Hero Section */}
+      {/* Redesigned Animated Hero Section */}
       <section id="top" className="relative min-h-screen flex items-center overflow-hidden">
-        {/* Animated background orbs */}
+        {/* Three colored orbs - one for each skill */}
         <div className="pointer-events-none absolute inset-0 overflow-hidden">
+          {/* Blue orb for web development - top left */}
           <div 
-            className="absolute w-96 h-96 bg-indigo-600/20 rounded-full blur-3xl animate-float"
+            className="absolute w-96 h-96 bg-blue-600/30 rounded-full blur-3xl animate-float"
             style={{
-              left: '10%',
-              top: '20%',
-              animation: 'float 20s ease-in-out infinite'
-            }}
-          />
-          <div 
-            className="absolute w-80 h-80 bg-purple-600/20 rounded-full blur-3xl animate-float-delayed"
-            style={{
-              right: '15%',
-              bottom: '30%',
-              animation: 'float 18s ease-in-out infinite reverse'
-            }}
-          />
-          <div 
-            className="absolute w-64 h-64 bg-blue-600/20 rounded-full blur-3xl animate-pulse-slow"
-            style={{
-              left: '30%',
-              bottom: '10%',
+              left: '5%',
+              top: '15%',
             }}
           />
           
-          {/* Mouse-following glow */}
+          {/* Emerald orb for game development - center right, moved up */}
           <div 
-            className="absolute w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl transition-all duration-700 ease-out"
+            className="absolute w-80 h-80 bg-emerald-600/30 rounded-full blur-3xl animate-float-delayed"
             style={{
-              left: mousePosition.x - 200,
-              top: mousePosition.y - 200,
-              transform: 'translate(-50%, -50%)',
+              right: '15%',
+              top: '30%',
+            }}
+          />
+          
+          {/* Amber orb for motion - bottom left, moved right */}
+          <div 
+            className="absolute w-72 h-72 bg-amber-600/30 rounded-full blur-3xl animate-pulse-slow"
+            style={{
+              left: '25%',
+              bottom: '20%',
+            }}
+          />
+          
+          {/* Mouse-following glow - exactly centered on cursor */}
+          <div 
+            className="absolute w-150 h-150 bg-indigo-500/15 rounded-full blur-3xl transition-all duration-300 ease-out pointer-events-none"
+            style={{
+              left: mousePosition.x - 300,
+              top: mousePosition.y - 300,
             }}
           />
         </div>
 
-        {/* Animated grid lines */}
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(99,102,241,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(99,102,241,0.05)_1px,transparent_1px)] bg-[size:100px_100px] animate-pulse-slow" />
+        {/* Animated grid lines - more prominent */}
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(99,102,241,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(99,102,241,0.08)_1px,transparent_1px)] bg-size-[80px_80px] animate-pulse-slow" />
+
+        {/* Floating particles - using fixed positions */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          {particles.map((particle, i) => (
+            <div
+              key={i}
+              className="absolute w-1 h-1 bg-indigo-400/30 rounded-full animate-pulse"
+              style={{
+                left: particle.left,
+                top: particle.top,
+                animationDelay: particle.delay,
+                animationDuration: particle.duration,
+              }}
+            />
+          ))}
+        </div>
 
         <div className="relative w-full">
           <div className="relative w-full h-screen">
+            {/* Split Image with simple movement - Background layer with gradient */}
             <div className="absolute inset-0 flex justify-end items-center">
-              <div className="relative w-3/5 h-auto mr-10 animate-float-slow">
+              {/* Background layer - with gradient fade, moves slightly */}
+              <div 
+                className="absolute right-0 top-1/2 -translate-y-1/2 w-3/5 h-auto mr-10 transition-transform duration-200 ease-out"
+                style={{
+                  transform: mousePosition.x 
+                    ? `translate(${(mousePosition.x - window.innerWidth/2) * 0.01}px, ${(mousePosition.y - window.innerHeight/2) * 0.01}px)` 
+                    : 'translate(0px, 0px)',
+                  zIndex: 1,
+                }}
+              >
                 <img
-                  src="/MyPhoto.png"
-                  alt="Marko Bakula"
+                  src="/MyPhotoBackground.png"
+                  alt="Marko Bakula Background"
                   className="w-full h-auto object-contain rounded-2xl"
                   style={{
                     maskImage: 'linear-gradient(to right, transparent 0%, black 20%, black 80%, transparent 100%)',
                     WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 20%, black 80%, transparent 100%)'
                   }}
                 />
-                
-                <div 
-                  className="absolute inset-0 rounded-2xl"
-                  style={{
-                    background: 'linear-gradient(to right, transparent 0%, rgba(15, 23, 42, 0.2) 20%, rgba(15, 23, 42, 0.2) 80%, transparent 100%)'
-                  }}
+              </div>
+              
+              {/* Foreground layer - slightly bigger, no gradient, moves more */}
+              <div 
+                className="absolute right-0 top-1/2 -translate-y-1/2 mr-10 transition-transform duration-200 ease-out"
+                style={{
+                  width: 'calc(60% * 1.03)',
+                  transform: mousePosition.x 
+                    ? `translate(${(mousePosition.x - window.innerWidth/2) * 0.02}px, ${(mousePosition.y - window.innerHeight/2) * 0.02}px)` 
+                    : 'translate(0px, 0px)',
+                  zIndex: 2,
+                }}
+              >
+                <img
+                  src="/MyPhoto.png"
+                  alt="Marko Bakula"
+                  className="w-full h-full object-contain rounded-2xl"
                 />
               </div>
             </div>
             
-            <div className="absolute inset-0 flex items-center">
+            {/* Text content - now above images with higher z-index */}
+            <div className="absolute inset-0 flex items-center z-10">
               <div className="max-w-7xl mx-auto px-6 w-full">
                 <div className="max-w-2xl animate-fade-in-up">
                   <div className="overflow-hidden">
-                    <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-white mb-6 animate-slide-up">
-                      Marko Bakula
+                    <h1 className="text-6xl md:text-7xl lg:text-8xl font-extrabold tracking-tight text-white mb-6 animate-slide-up leading-tight">
+                      Marko <span className="bg-linear-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">Bakula</span>
                     </h1>
                   </div>
 
                   <div className="overflow-hidden">
-                    <p className="text-xl md:text-2xl font-medium text-indigo-300 mb-6 animate-slide-up delay-100">
-                      Web Dev · Game Dev · Video Editing
-                    </p>
-                  </div>
-
-                  <div className="overflow-hidden">
-                    <p className="text-slate-200 leading-relaxed text-lg max-w-xl animate-slide-up delay-200">
-                      I enjoy both the creative and technical challenges from my field of work be it making
-                      <span className="text-indigo-300"> responsive web apps</span>, 
-                      <span className="text-emerald-300"> gameplay systems</span> or
-                      <span className="text-amber-300"> video editing</span>,
-                      and am looking to improve and learn along the way.
+                    <p className="text-slate-200 leading-relaxed text-xl max-w-xl animate-slide-up delay-200">
+                      I craft interactive experiences across{" "}
+                      <button
+                        onClick={(e) => handleCategoryClick('web', e)}
+                        className="relative font-bold text-blue-400 hover:text-blue-300 transition-all duration-300 hover:scale-105 focus:outline-none px-0.5 py-0.5 inline-block group"
+                      >
+                        <span className="relative z-10">web development</span>
+                        <span className="absolute inset-0 bg-blue-400/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg pointer-events-none" style={{ filter: 'blur(12px)' }} />
+                        <span className="absolute inset-0 bg-blue-400/10 blur-2xl opacity-30 transition-opacity duration-300 rounded-lg pointer-events-none" style={{ filter: 'blur(16px)' }} />
+                      </button>
+                      ,{" "}
+                      <button
+                        onClick={(e) => handleCategoryClick('game', e)}
+                        className="relative font-bold text-emerald-400 hover:text-emerald-300 transition-all duration-300 hover:scale-105 focus:outline-none px-0.5 py-0.5 inline-block group"
+                      >
+                        <span className="relative z-10">game development</span>
+                        <span className="absolute inset-0 bg-emerald-400/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg pointer-events-none" style={{ filter: 'blur(12px)' }} />
+                        <span className="absolute inset-0 bg-emerald-400/10 blur-2xl opacity-30 transition-opacity duration-300 rounded-lg pointer-events-none" style={{ filter: 'blur(16px)' }} />
+                      </button>
+                      , and{" "}
+                      <button
+                        onClick={(e) => handleCategoryClick('motion', e)}
+                        className="relative font-bold text-amber-400 hover:text-amber-300 transition-all duration-300 hover:scale-105 focus:outline-none px-0.5 py-0.5 inline-block group"
+                      >
+                        <span className="relative z-10">video editing</span>
+                        <span className="absolute inset-0 bg-amber-400/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg pointer-events-none" style={{ filter: 'blur(12px)' }} />
+                        <span className="absolute inset-0 bg-amber-400/10 blur-2xl opacity-30 transition-opacity duration-300 rounded-lg pointer-events-none" style={{ filter: 'blur(16px)' }} />
+                      </button>
+                      , always looking to improve and learn along the way.
                     </p>
                   </div>
 
@@ -878,7 +983,7 @@ export default function App() {
                       href="#contact"
                       onClick={handleNavClick}
                       className="
-                        px-7 py-3 rounded-xl font-semibold
+                        px-8 py-4 rounded-xl font-semibold text-lg
                         bg-indigo-600
                         shadow-[0_0_30px_rgba(99,102,241,0.6)]
                         hover:bg-indigo-500
@@ -894,7 +999,7 @@ export default function App() {
                       href="#skills"
                       onClick={handleNavClick}
                       className="
-                        px-7 py-3 rounded-xl font-semibold
+                        px-8 py-4 rounded-xl font-semibold text-lg
                         border border-white/30
                         text-white
                         hover:border-indigo-400
@@ -923,7 +1028,7 @@ export default function App() {
           bg-slate-900
         "
       >
-        <div className="absolute inset-0 bg-[radial-gradient(rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[length:24px_24px] pointer-events-none" />
+        <div className="absolute inset-0 bg-[radial-gradient(rgba(255,255,255,0.03)_1px,transparent_1px)] bg-size-[24px_24px] pointer-events-none" />
         
         <div className="relative max-w-6xl mx-auto px-6">
           <div className="text-center max-w-3xl mx-auto mb-20">
@@ -953,96 +1058,105 @@ export default function App() {
           </div>
 
           <div className="space-y-16">
-            <ExpandableCard
-              category="web"
-              title="Web Development ⚡"
-              subtitle="React · TypeScript · TailWind · HTML · CSS · Javascript · Blazor"
-              icons={["/icons/web-react.png", "/icons/typescript.png", "/icons/tailwind.png"]}
-              description="I build web apps that feel smooth and responsive, whether it's a personal site or a full-blown platform. Clean code and good performance are a must."
-              projects={[
-                {
-                  title: "Portfolio",
-                  shortDescription: "The site you're looking at right now!",
-                  fullDescription: "Built with React and Tailwind. Smooth animations, nested expandable cards with GIF demos, and a dark theme that's easy on the eyes. The component structure is designed to be reusable and maintainable, while also using a bunch of pretty optimized assets i made.",
-                  gifSrc: "/gifs/portfolio-demo.gif",
-                  technologies: ["React", "TypeScript", "Tailwind"],
-                  icon: "/icons/web-react.png",
-                  iconBg: "bg-indigo-500/30",
-                  liveLink: "#top",
-                  githubLink: "https://github.com/MarkoBakula"
-                },
-                {
-                  title: "E-Commerce (WIP)",
-                  shortDescription: "Building an online store from the ground up",
-                  fullDescription: "A collage project that i was rather happy with but ended up scrapping most of it, when finished it should look like a pretty standard e-commerce shop application",
-                  gifSrc: "/gifs/ecommerce-demo.gif",
-                  technologies: ["Node.js", "PostgreSQL", "React"],
-                  icon: "/icons/nodejs.png",
-                  iconBg: "bg-cyan-500/30",
-                  liveLink: "#",
-                  githubLink: "https://github.com/MarkoBakula"
-                }
-              ]}
-            />
+            {/* Web Development Card with ref */}
+            <div ref={webCardRef}>
+              <ExpandableCard
+                category="web"
+                title="Web Development ⚡"
+                subtitle="React · TypeScript · TailWind · HTML · CSS · Javascript · Blazor"
+                icons={["/icons/web-react.png", "/icons/typescript.png", "/icons/tailwind.png"]}
+                description="I build web apps that feel smooth and responsive, whether it's a personal site or a full-blown platform. Clean code and good performance are a must."
+                projects={[
+                  {
+                    title: "Portfolio",
+                    shortDescription: "The site you're looking at right now!",
+                    fullDescription: "Built with React and Tailwind. Smooth animations, nested expandable cards with GIF demos, and a dark theme that's easy on the eyes. The component structure is designed to be reusable and maintainable, while also using a bunch of pretty optimized assets i made.",
+                    gifSrc: "/gifs/portfolio-demo.gif",
+                    technologies: ["React", "TypeScript", "Tailwind"],
+                    icon: "/icons/web-react.png",
+                    iconBg: "bg-indigo-500/30",
+                    liveLink: "#top",
+                    githubLink: "https://github.com/MarkoBakula/Portfolio-Website"
+                  },
+                  {
+                    title: "E-Commerce (WIP)",
+                    shortDescription: "Building an online store from the ground up",
+                    fullDescription: "A collage project that i was rather happy with but ended up scrapping most of it, when finished it should look like a pretty standard e-commerce shop application",
+                    gifSrc: "/gifs/ecommerce-demo.gif",
+                    technologies: ["Node.js", "PostgreSQL", "React"],
+                    icon: "/icons/nodejs.png",
+                    iconBg: "bg-cyan-500/30",
+                    liveLink: "#",
+                    githubLink: "https://github.com/MarkoBakula"
+                  }
+                ]}
+              />
+            </div>
 
-            <ExpandableCard
-              category="game"
-              title="Game Development 🎮"
-              subtitle="Unity · C# · Object Oriented · Game Jams"
-              icons={["/icons/unity.png", "/icons/csharp.png", "/icons/shader.png"]}
-              description="My on and off hobby and job for the past few years. Focusing mostly on unity projects that are built during time sensitive game jams but also ones im most proud off"
-              projects={[
-                {
-                  title: "Koi Rush",
-                  shortDescription: "A fish-eating-fish game made in a week",
-                  fullDescription: "Control a koi fish in a peaceful pond, eat smaller fish to grow, and avoid the bigger ones. Built in unity for a week long game jam. Features interesting movement, a simple growth mechanic, and a calming pond atmosphere with a bold black-white-red palette with all assets aswell as programming made by myself.",
-                  gifSrc: "/gifs/koi-rush.gif",
-                  technologies: ["Unity", "C#", "Procedural Animations"],
-                  icon: "/icons/koi-icon.png",
-                  iconBg: "bg-white",
-                  itchLink: "https://bungalov.itch.io/koi-rush"
-                },
-                {
-                  title: "Jotungrowth",
-                  shortDescription: "Viking puzzle and platfomring game with a shrinking potion main mechanic",
-                  fullDescription: "Made in Unreal Engine 5 for a game jam. You're a viking with a shrinking potion shrink to sneak through tiny passages, grow back to solve puzzles and activate pressure plates. Cozy aesthetics and focus on the environment.",
-                  gifSrc: "/gifs/jotungrowth.gif",
-                  technologies: ["Unreal 5", "Blueprints", "Level Design"],
-                  icon: "/icons/jotun-icon.png",
-                  iconBg: "bg-blue-400",
-                  itchLink: "https://emptystudio.itch.io/jotengrowth"
-                },
-                {
-                  title: "Loop & Load",
-                  shortDescription: "Turn-based roguelike made in 48 hours",
-                  fullDescription: "Inspired by Loop Hero, this was a 2-day game jam experiment. Top-down turn-based combat, procedural loot, and resource management all in a minimalist black-and-neon aesthetic.",
-                  gifSrc: "/gifs/loop-load.gif",
-                  technologies: ["Unity", "C#", "Turn-based"],
-                  icon: "/icons/loop-icon.png",
-                  iconBg: "bg-green-400",
-                  itchLink: "https://bungalov.itch.io/loop-load"
-                }
-              ]}
-            />
+            {/* Game Development Card with ref */}
+            <div ref={gameCardRef}>
+              <ExpandableCard
+                category="game"
+                title="Game Development 🎮"
+                subtitle="Unity · C# · Object Oriented · Game Jams"
+                icons={["/icons/unity.png", "/icons/csharp.png", "/icons/shader.png"]}
+                description="My on and off hobby and job for the past few years. Focusing mostly on unity projects that are built during time sensitive game jams but also ones im most proud off"
+                projects={[
+                  {
+                    title: "Koi Rush",
+                    shortDescription: "A fish-eating-fish game made in a week",
+                    fullDescription: "Control a koi fish in a peaceful pond, eat smaller fish to grow, and avoid the bigger ones. Built in unity for a week long game jam. Features interesting movement, a simple growth mechanic, and a calming pond atmosphere with a bold black-white-red palette with all assets aswell as programming made by myself.",
+                    gifSrc: "/gifs/koi-rush.gif",
+                    technologies: ["Unity", "C#", "Procedural Animations"],
+                    icon: "/icons/koi-icon.png",
+                    iconBg: "bg-white",
+                    itchLink: "https://bungalov.itch.io/koi-rush"
+                  },
+                  {
+                    title: "Jotungrowth",
+                    shortDescription: "Viking puzzle and platfomring game with a shrinking potion main mechanic",
+                    fullDescription: "Made in Unreal Engine 5 for a game jam. You're a viking with a shrinking potion shrink to sneak through tiny passages, grow back to solve puzzles and activate pressure plates. Cozy aesthetics and focus on the environment.",
+                    gifSrc: "/gifs/jotungrowth.gif",
+                    technologies: ["Unreal 5", "Blueprints", "Level Design"],
+                    icon: "/icons/jotun-icon.png",
+                    iconBg: "bg-blue-400",
+                    itchLink: "https://emptystudio.itch.io/jotengrowth"
+                  },
+                  {
+                    title: "Loop & Load",
+                    shortDescription: "Turn-based roguelike made in 48 hours",
+                    fullDescription: "Inspired by Loop Hero, this was a 2-day game jam experiment. Top-down turn-based combat, procedural loot, and resource management all in a minimalist black-and-neon aesthetic.",
+                    gifSrc: "/gifs/loop-load.gif",
+                    technologies: ["Unity", "C#", "Turn-based"],
+                    icon: "/icons/loop-icon.png",
+                    iconBg: "bg-green-400",
+                    itchLink: "https://bungalov.itch.io/loop-load"
+                  }
+                ]}
+              />
+            </div>
 
-            <ExpandableCard
-              category="motion"
-              title="Motion & Video 🎬"
-              subtitle="After Effects · Motion Design"
-              icons={["/icons/aftereffects.png", "/icons/premiere.png", "/icons/illustrator.png"]}
-              description="While it started out as a necessety for a job i realized how useful and fulfilling making videos is. Promos, logos, and visual storytelling are all things im capable of doing now."
-              projects={[
-                {
-                  title: "Saudi Real Estate AI Ad",
-                  shortDescription: "AI-assisted luxury property promo",
-                  fullDescription: "A promotional video for a Saudi real estate agency, blending AI generated visuals with motion graphics. Dynamic transitions, Arabic typography, and warm desert tones all crafted to feel luxurious and modern.",
-                  gifSrc: "/gifs/saudi-realestate.gif",
-                  technologies: ["After Effects", "AI Tools", "Premiere"],
-                  icon: "/icons/saudi-icon.png",
-                  iconBg: "bg-[#D2B48C]"
-                }
-              ]}
-            />
+            {/* Motion & Video Card with ref */}
+            <div ref={motionCardRef}>
+              <ExpandableCard
+                category="motion"
+                title="Motion & Video 🎬"
+                subtitle="After Effects · Motion Design"
+                icons={["/icons/aftereffects.png", "/icons/premiere.png", "/icons/illustrator.png"]}
+                description="While it started out as a necessety for a job i realized how useful and fulfilling making videos is. Promos, logos, and visual storytelling are all things im capable of doing now."
+                projects={[
+                  {
+                    title: "Saudi Real Estate AI Ad",
+                    shortDescription: "AI-assisted luxury property promo",
+                    fullDescription: "A promotional video for a Saudi real estate agency, blending AI generated visuals with motion graphics. Dynamic transitions, Arabic typography, and warm desert tones all crafted to feel luxurious and modern.",
+                    gifSrc: "/gifs/saudi-realestate.gif",
+                    technologies: ["After Effects", "AI Tools", "Premiere"],
+                    icon: "/icons/saudi-icon.png",
+                    iconBg: "bg-[#D2B48C]"
+                  }
+                ]}
+              />
+            </div>
           </div>
         </div>
       </section>
@@ -1060,8 +1174,8 @@ export default function App() {
       >
         {/* Circuit board pattern for work experience */}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(99,102,241,0.03)_0%,transparent_50%)] pointer-events-none" />
-        <div className="absolute inset-0 bg-[linear-gradient(45deg,rgba(99,102,241,0.02)_1px,transparent_1px),linear-gradient(-45deg,rgba(99,102,241,0.02)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none" />
-        <div className="absolute inset-0 bg-[radial-gradient(rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[length:32px_32px] pointer-events-none" />
+        <div className="absolute inset-0 bg-[linear-gradient(45deg,rgba(99,102,241,0.02)_1px,transparent_1px),linear-gradient(-45deg,rgba(99,102,241,0.02)_1px,transparent_1px)] bg-size-[40px_40px] pointer-events-none" />
+        <div className="absolute inset-0 bg-[radial-gradient(rgba(255,255,255,0.02)_1px,transparent_1px)] bg-size-[32px_32px] pointer-events-none" />
         
         <div className="relative max-w-6xl mx-auto px-6 w-full py-32">
           <div className="grid md:grid-cols-2 gap-20 items-start">
@@ -1086,7 +1200,7 @@ export default function App() {
                 company="Replai"
                 logo="/logos/replai.png"
                 period="2025-2026"
-                description="Developed Unity systems and gameplay features for interactive mobile game ads you've probably seen them before downloading some of the biggest games on the App Store. The job was all about rapid prototyping and iteration, build something fun, test it, check the metrics and make it even better. Also handled video editing in After Effects to polish the final ad creative."
+                description="Developed Unity systems and gameplay features for interactive mobile game ads you've probably seen them before downloading some of the biggest games on the App Store. The job was all about rapid prototyping and iteration, build something fun, test it, check the metrics and make it even better. Also handled video editing in After Effects to polish the result."
               />
 
               <ExperienceCard
@@ -1124,34 +1238,31 @@ export default function App() {
                 <div className="absolute inset-0 w-1.5 bg-indigo-500/30 blur-xl" />
               </div>
 
-              <div className="space-y-32 relative z-10">
+              <div className="space-y-16 relative z-10">
                 <EducationCard
-                  title="Masters :  Computer Engineering"
-                  school="VIŠER / ATUSS - Sremska Mitrovica"
+                  title="Master's"
+                  school="VIŠER / ATUSS - Belgrade"
                   logo="/logos/viser.png"
                   period="2025 – Present"
                   big
                   current
                   align="left"
-                  logoPosition="left"
                 />
 
                 <EducationCard
-                  title="Bachelor : Business Informatics"
+                  title="Bachelor's"
                   school="ВШСС Сирмијум - Sremska Mitrovica"
                   logo="/logos/sirmium-college.png"
                   period="2021 – 2024"
                   align="right"
-                  logoPosition="right"
                 />
 
                 <EducationCard
-                  title="Technical High School : Constructive Mechanical Engineering"
+                  title="High School"
                   school="Nikola Tesla - Sremska Mitrovica"
                   logo="/logos/tesla.png"
                   period="2015 – 2019"
                   align="left"
-                  logoPosition="left"
                 />
               </div>
             </div>
@@ -1216,7 +1327,7 @@ export default function App() {
               </a>
 
               <a 
-                href="tel:+381679999999" 
+                href="tel:+381677639977" 
                 className="flex items-center gap-4 p-5 rounded-xl bg-slate-800/50 border border-slate-700 hover:border-indigo-400 transition-all duration-200 group"
               >
                 <div className="w-12 h-12 rounded-lg bg-indigo-500/20 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform duration-200">
