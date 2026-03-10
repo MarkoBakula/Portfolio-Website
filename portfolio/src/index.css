@@ -19,10 +19,6 @@
   --text-secondary: 203 213 225;   /* slate-300 */
 }
 
-/* =========================
-   GLOBAL BASE
-   ========================= */
-
 html,
 body,
 #root {
@@ -31,4 +27,32 @@ body,
   padding: 0;
   background-color: rgb(var(--bg-main));
   color: rgb(var(--text-primary));
+}
+
+.bg-main {
+  background-color: rgb(var(--bg-main));
+}
+
+.bg-surface {
+  background-color: rgb(var(--bg-surface));
+}
+
+.text-primary {
+  color: rgb(var(--text-primary));
+}
+
+.text-secondary {
+  color: rgb(var(--text-secondary));
+}
+
+.bg-primary {
+  background-color: rgb(var(--color-primary));
+}
+
+.text-primary {
+  color: rgb(var(--color-primary));
+}
+
+.border-primary {
+  border-color: rgb(var(--color-primary) / 0.3);
 }
