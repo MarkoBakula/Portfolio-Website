@@ -74,6 +74,7 @@ export default function App() {
     
     const skillsSection = document.getElementById('skills');
     if (skillsSection) {
+      // First, scroll to the skills section
       skillsSection.scrollIntoView({
         behavior: 'smooth',
         block: 'start',
@@ -91,10 +92,19 @@ export default function App() {
         }
         
         if (targetCard) {
+          // Click to open the card
           const clickableHeader = targetCard.querySelector('.cursor-pointer');
           if (clickableHeader) {
             (clickableHeader as HTMLElement).click();
           }
+          
+          // Scroll the card into view with better positioning
+          setTimeout(() => {
+            targetCard?.scrollIntoView({
+              behavior: 'smooth',
+              block: 'center', // This centers the card in the viewport
+            });
+          }, 100); // Small delay after click
         }
       }, 500);
     }
