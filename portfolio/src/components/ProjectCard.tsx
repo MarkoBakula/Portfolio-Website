@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import type { Project } from './types';
+import React, { useState } from "react";
+import type { Project } from "./types";
 
 interface ProjectCardProps {
   project: Project;
-  category: 'web' | 'game' | 'motion';
+  category: "web" | "game" | "motion";
 }
 
 const ProjectCard: React.FC<ProjectCardProps> = ({ project, category }) => {
@@ -13,24 +13,30 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, category }) => {
     web: {
       border: "hover:border-blue-400/50",
       accent: "text-blue-300",
-      badge: "from-blue-500/10 to-purple-500/10 text-blue-200 border-blue-500/20",
-      button: "border-blue-500/20 text-blue-300 hover:text-blue-200 bg-blue-500/5 hover:bg-blue-500/10",
-      glow: "shadow-blue-500/10"
+      badge:
+        "from-blue-500/10 to-purple-500/10 text-blue-200 border-blue-500/20",
+      button:
+        "border-blue-500/20 text-blue-300 hover:text-blue-200 bg-blue-500/5 hover:bg-blue-500/10",
+      glow: "shadow-blue-500/10",
     },
     game: {
       border: "hover:border-emerald-400/50",
       accent: "text-emerald-300",
-      badge: "from-emerald-500/10 to-teal-500/10 text-emerald-200 border-emerald-500/20",
-      button: "border-emerald-500/20 text-emerald-300 hover:text-emerald-200 bg-emerald-500/5 hover:bg-emerald-500/10",
-      glow: "shadow-emerald-500/10"
+      badge:
+        "from-emerald-500/10 to-teal-500/10 text-emerald-200 border-emerald-500/20",
+      button:
+        "border-emerald-500/20 text-emerald-300 hover:text-emerald-200 bg-emerald-500/5 hover:bg-emerald-500/10",
+      glow: "shadow-emerald-500/10",
     },
     motion: {
       border: "hover:border-amber-400/50",
       accent: "text-amber-300",
-      badge: "from-amber-500/10 to-orange-500/10 text-amber-200 border-amber-500/20",
-      button: "border-amber-500/20 text-amber-300 hover:text-amber-200 bg-amber-500/5 hover:bg-amber-500/10",
-      glow: "shadow-amber-500/10"
-    }
+      badge:
+        "from-amber-500/10 to-orange-500/10 text-amber-200 border-amber-500/20",
+      button:
+        "border-amber-500/20 text-amber-300 hover:text-amber-200 bg-amber-500/5 hover:bg-amber-500/10",
+      glow: "shadow-amber-500/10",
+    },
   };
 
   const styles = categoryStyles[category];
@@ -42,7 +48,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, category }) => {
         border: "border-red-500/30 hover:border-red-400",
         accent: "text-red-300",
         iconBg: "bg-white",
-        glow: "shadow-red-500/10"
+        glow: "shadow-red-500/10",
       };
     } else if (project.title.includes("Jotungrowth")) {
       return {
@@ -50,7 +56,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, category }) => {
         border: "border-blue-500/30 hover:border-blue-400",
         accent: "text-blue-300",
         iconBg: "bg-blue-400",
-        glow: "shadow-blue-500/10"
+        glow: "shadow-blue-500/10",
       };
     } else if (project.title.includes("Loop & Load")) {
       return {
@@ -58,7 +64,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, category }) => {
         border: "border-purple-500/30 hover:border-purple-400",
         accent: "text-purple-300",
         iconBg: "bg-green-400",
-        glow: "shadow-purple-500/10"
+        glow: "shadow-purple-500/10",
       };
     } else if (project.title.includes("Portfolio")) {
       return {
@@ -66,7 +72,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, category }) => {
         border: "border-indigo-500/30 hover:border-indigo-400",
         accent: "text-indigo-300",
         iconBg: "bg-indigo-500/30",
-        glow: "shadow-indigo-500/10"
+        glow: "shadow-indigo-500/10",
       };
     } else if (project.title.includes("E-Commerce")) {
       return {
@@ -74,7 +80,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, category }) => {
         border: "border-cyan-500/30 hover:border-cyan-400",
         accent: "text-cyan-300",
         iconBg: "bg-cyan-500/30",
-        glow: "shadow-cyan-500/10"
+        glow: "shadow-cyan-500/10",
       };
     } else if (project.title.includes("Saudi")) {
       return {
@@ -82,7 +88,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, category }) => {
         border: "border-amber-500/30 hover:border-amber-400",
         accent: "text-amber-300",
         iconBg: "bg-[#D2B48C]",
-        glow: "shadow-amber-500/10"
+        glow: "shadow-amber-500/10",
       };
     } else {
       return {
@@ -90,7 +96,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, category }) => {
         border: styles.border,
         accent: styles.accent,
         iconBg: "bg-indigo-500/30",
-        glow: styles.glow
+        glow: styles.glow,
       };
     }
   };
@@ -106,11 +112,11 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, category }) => {
     e.stopPropagation();
     if (project.liveLink) {
       if (project.liveLink === "#top") {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        window.scrollTo({ top: 0, behavior: "smooth" });
       } else if (project.liveLink === "#") {
         return;
       } else {
-        window.open(project.liveLink, '_blank');
+        window.open(project.liveLink, "_blank");
       }
     }
   };
@@ -118,19 +124,19 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, category }) => {
   const handleGitHubClick = (e: React.MouseEvent) => {
     e.stopPropagation();
     if (project.githubLink) {
-      window.open(project.githubLink, '_blank');
+      window.open(project.githubLink, "_blank");
     }
   };
 
   const handleItchClick = (e: React.MouseEvent) => {
     e.stopPropagation();
     if (project.itchLink) {
-      window.open(project.itchLink, '_blank');
+      window.open(project.itchLink, "_blank");
     }
   };
 
   return (
-    <div 
+    <div
       className={`
         rounded-xl border ${projectStyles.border}
         ${projectStyles.bg}
@@ -146,47 +152,53 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, category }) => {
       <div className="absolute bottom-0 left-0 w-16 h-16 overflow-hidden pointer-events-none">
         <div className="absolute bottom-0 left-0 w-8 h-8 bg-white/5 rotate-45 -translate-x-4 translate-y-4" />
       </div>
-      
-      <div 
+
+      <div
         onClick={handleProjectClick}
-        className="p-6 cursor-pointer group relative z-10"
+        className="p-4 sm:p-6 cursor-pointer group relative z-10"
       >
-        <div className="flex items-center justify-between mb-2">
-          <div className="flex items-center gap-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-2 gap-2">
+          <div className="flex items-center gap-3 sm:gap-4">
             {project.icon && (
-              <div className={`w-14 h-14 rounded-xl ${projectStyles.iconBg} flex items-center justify-center p-2 backdrop-blur-sm border border-white/10 shadow-lg`}>
-                <img 
+              <div
+                className={`w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-xl ${projectStyles.iconBg} flex items-center justify-center p-1.5 sm:p-2 backdrop-blur-sm border border-white/10 shadow-lg flex-shrink-0 hidden sm:flex`}
+              >
+                <img
                   src={project.icon}
                   alt=""
-                  className="w-12 h-12 object-contain"
+                  className="w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 object-contain"
                 />
               </div>
             )}
-            <h5 className={`font-bold text-xl text-white group-hover:${projectStyles.accent} transition-colors duration-300`}>
+            <h5
+              className={`font-bold text-base sm:text-lg md:text-xl text-white group-hover:${projectStyles.accent} transition-colors duration-300`}
+            >
               {project.title}
             </h5>
           </div>
-          <span className={`
-            text-sm font-medium px-3 py-1 rounded-full
+          <span
+            className={`
+            text-xs sm:text-sm font-medium px-2 sm:px-3 py-1 rounded-full
             bg-indigo-500/10 border border-indigo-500/20
             group-hover:bg-indigo-500/20 transition-all duration-300
-            ${projectStyles.accent}
-          `}>
-            {expanded ? 'Close ▲' : 'View ▼'}
+            ${projectStyles.accent} self-start sm:self-auto
+          `}
+          >
+            {expanded ? "Close ▲" : "View ▼"}
           </span>
         </div>
-        
-        <p className="text-slate-300 text-base leading-relaxed font-light">
+
+        <p className="text-slate-300 text-sm sm:text-base leading-relaxed font-light">
           {project.shortDescription}
         </p>
-        
+
         {project.technologies && (
-          <div className="flex flex-wrap gap-2 mt-4">
+          <div className="flex flex-wrap gap-1.5 sm:gap-2 mt-3 sm:mt-4">
             {project.technologies.map((tech) => (
-              <span 
+              <span
                 key={tech}
                 className={`
-                  text-xs px-3 py-1.5 rounded-lg 
+                  text-xs px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg 
                   bg-linear-to-r ${styles.badge}
                   font-medium tracking-wide
                   shadow-[0_2px_8px_rgba(0,0,0,0.1)]
@@ -199,78 +211,85 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, category }) => {
         )}
       </div>
 
-      <div 
+      <div
         className={`
           grid transition-all duration-500 ease-in-out
-          ${expanded ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}
+          ${expanded ? "grid-rows-[1fr]" : "grid-rows-[0fr]"}
         `}
       >
         <div className="overflow-hidden">
-          <div className="p-6 pt-0 border-t border-white/10">
-            <div className="grid md:grid-cols-2 gap-10 mt-4">
-              <div className="space-y-5">
-                <div className="prose prose-invert">
-                  <p className="text-slate-200 text-base leading-relaxed font-light">
+          <div className="p-4 sm:p-6 pt-0 border-t border-white/10">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-10 mt-4">
+              <div className="space-y-4 sm:space-y-5">
+                <div className="prose prose-invert max-w-full">
+                  <p className="text-slate-200 text-sm sm:text-base leading-relaxed font-light">
                     {project.fullDescription}
                   </p>
                 </div>
-                
-                <div className="flex gap-4 pt-3">
+
+                <div className="flex flex-wrap gap-3 pt-3">
                   {/* Web Development buttons */}
-                  {category === 'web' && project.liveLink && (
-                    <button 
+                  {category === "web" && project.liveLink && (
+                    <button
                       onClick={handleLiveClick}
                       disabled={project.liveLink === "#"}
                       className={`
-                        group flex items-center gap-2 text-sm font-medium
-                        px-4 py-2 rounded-lg border transition-all
-                        ${project.liveLink === "#" 
-                          ? 'border-slate-600 text-slate-500 cursor-not-allowed opacity-60' 
-                          : styles.button
+                        group flex items-center gap-1 sm:gap-2 text-xs sm:text-sm font-medium
+                        px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg border transition-all
+                        ${
+                          project.liveLink === "#"
+                            ? "border-slate-600 text-slate-500 cursor-not-allowed opacity-60"
+                            : styles.button
                         }
                       `}
                     >
                       <span>Live</span>
-                      {project.liveLink === "#" && <span className="text-xs ml-1">(WIP)</span>}
-                      <span className="group-hover:translate-x-1 transition-transform">→</span>
+                      {project.liveLink === "#" && (
+                        <span className="text-xs ml-1">(WIP)</span>
+                      )}
+                      <span className="group-hover:translate-x-1 transition-transform">
+                        →
+                      </span>
                     </button>
                   )}
-                  
-                  {category === 'web' && project.githubLink && (
-                    <button 
+
+                  {category === "web" && project.githubLink && (
+                    <button
                       onClick={handleGitHubClick}
                       className="
-                        group flex items-center gap-2
-                        text-sm font-medium text-slate-300 
+                        group flex items-center gap-1 sm:gap-2
+                        text-xs sm:text-sm font-medium text-slate-300 
                         hover:text-indigo-300 transition-colors
-                        px-4 py-2 rounded-lg
+                        px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg
                         bg-slate-800/50 hover:bg-slate-800/80
                         border border-white/5
                       "
                     >
                       <span>GitHub</span>
-                      <span className="text-lg">⌨️</span>
+                      <span className="text-base sm:text-lg">⌨️</span>
                     </button>
                   )}
 
                   {/* Game Development buttons */}
-                  {category === 'game' && project.itchLink && (
-                    <button 
+                  {category === "game" && project.itchLink && (
+                    <button
                       onClick={handleItchClick}
                       className={`
-                        group flex items-center gap-2 text-sm font-medium
-                        px-4 py-2 rounded-lg border transition-all
+                        group flex items-center gap-1 sm:gap-2 text-xs sm:text-sm font-medium
+                        px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg border transition-all
                         ${styles.button}
                       `}
                     >
                       <span>Itch</span>
-                      <span className="group-hover:translate-x-1 transition-transform">→</span>
+                      <span className="group-hover:translate-x-1 transition-transform">
+                        →
+                      </span>
                     </button>
                   )}
                 </div>
               </div>
 
-              <div 
+              <div
                 className="relative aspect-video rounded-xl overflow-hidden bg-slate-900/70 shadow-2xl ring-1 ring-white/10"
                 onClick={(e) => e.stopPropagation()}
               >
@@ -279,20 +298,22 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, category }) => {
                   alt={`${project.title} demo`}
                   className="w-full h-full object-cover"
                   style={{
-                    imageRendering: 'auto',
+                    imageRendering: "auto",
                   }}
                 />
-                
+
                 <div className="absolute inset-0 bg-linear-to-t from-slate-950/50 via-transparent to-transparent" />
-                
-                <div className="absolute bottom-3 right-3">
-                  <span className={`
-                    text-xs px-3 py-1.5 rounded-full 
+
+                <div className="absolute bottom-2 sm:bottom-3 right-2 sm:right-3">
+                  <span
+                    className={`
+                    text-xs px-2 sm:px-3 py-1 sm:py-1.5 rounded-full 
                     bg-black/60 backdrop-blur-sm border border-white/10
                     flex items-center gap-1 ${projectStyles.accent}
-                  `}>
-                    <span className="text-lg">▶</span>
-                    <span>Demo</span>
+                  `}
+                  >
+                    <span className="text-base sm:text-lg">▶</span>
+                    <span className="text-xs">Demo</span>
                   </span>
                 </div>
               </div>

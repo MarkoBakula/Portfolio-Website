@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import type { ExpandableCardProps } from './types';
-import ProjectCard from './ProjectCard';
+import React, { useState } from "react";
+import type { ExpandableCardProps } from "./types";
+import ProjectCard from "./ProjectCard";
 
 const ExpandableCard: React.FC<ExpandableCardProps> = ({
   title,
@@ -8,7 +8,7 @@ const ExpandableCard: React.FC<ExpandableCardProps> = ({
   description,
   icons,
   projects,
-  category
+  category,
 }) => {
   const [open, setOpen] = useState(false);
 
@@ -21,7 +21,7 @@ const ExpandableCard: React.FC<ExpandableCardProps> = ({
       text: "text-blue-300",
       iconGlow: "bg-blue-500/40",
       line: "border-l-blue-400",
-      badge: "bg-blue-500/10 text-blue-300 border-blue-500/30"
+      badge: "bg-blue-500/10 text-blue-300 border-blue-500/30",
     },
     game: {
       gradient: "from-emerald-600/20 via-teal-600/10 to-cyan-600/20",
@@ -31,7 +31,7 @@ const ExpandableCard: React.FC<ExpandableCardProps> = ({
       text: "text-emerald-300",
       iconGlow: "bg-emerald-500/40",
       line: "border-l-emerald-400",
-      badge: "bg-emerald-500/10 text-emerald-300 border-emerald-500/30"
+      badge: "bg-emerald-500/10 text-emerald-300 border-emerald-500/30",
     },
     motion: {
       gradient: "from-amber-600/20 via-orange-600/10 to-rose-600/20",
@@ -41,8 +41,8 @@ const ExpandableCard: React.FC<ExpandableCardProps> = ({
       text: "text-amber-300",
       iconGlow: "bg-amber-500/40",
       line: "border-l-amber-400",
-      badge: "bg-amber-500/10 text-amber-300 border-amber-500/30"
-    }
+      badge: "bg-amber-500/10 text-amber-300 border-amber-500/30",
+    },
   };
 
   const styles = categoryStyles[category];
@@ -50,7 +50,7 @@ const ExpandableCard: React.FC<ExpandableCardProps> = ({
   const handleMainCardClick = (e: React.MouseEvent) => {
     const target = e.target as HTMLElement;
     const isProjectCard = target.closest('[data-project-card="true"]');
-    
+
     if (!isProjectCard) {
       setOpen(!open);
     }
@@ -62,40 +62,50 @@ const ExpandableCard: React.FC<ExpandableCardProps> = ({
       className={`
         cursor-pointer rounded-3xl border ${styles.border}
         bg-linear-to-br from-slate-800 via-slate-900 to-slate-950
-        p-8 transition-all duration-500
+        p-6 sm:p-8 transition-all duration-500
         shadow-[0_0_30px_rgba(0,0,0,0.3)] ${styles.shadow}
         hover:shadow-[0_0_55px_rgba(0,0,0,0.4)]
         ${open ? "scale-[1.02]" : ""}
         relative overflow-hidden
       `}
     >
-      <div className="absolute top-0 right-0 w-24 h-24 overflow-hidden pointer-events-none">
-        <div className="absolute top-0 right-0 w-12 h-12 bg-white/5 rotate-45 translate-x-6 -translate-y-6" />
+      <div className="absolute top-0 right-0 w-16 h-16 sm:w-24 sm:h-24 overflow-hidden pointer-events-none">
+        <div className="absolute top-0 right-0 w-8 h-8 sm:w-12 sm:h-12 bg-white/5 rotate-45 translate-x-4 sm:translate-x-6 -translate-y-4 sm:-translate-y-6" />
       </div>
-      <div className="absolute bottom-0 left-0 w-24 h-24 overflow-hidden pointer-events-none">
-        <div className="absolute bottom-0 left-0 w-12 h-12 bg-white/5 rotate-45 -translate-x-6 translate-y-6" />
+      <div className="absolute bottom-0 left-0 w-16 h-16 sm:w-24 sm:h-24 overflow-hidden pointer-events-none">
+        <div className="absolute bottom-0 left-0 w-8 h-8 sm:w-12 sm:h-12 bg-white/5 rotate-45 -translate-x-4 sm:-translate-x-6 translate-y-4 sm:translate-y-6" />
       </div>
-      
-      <div className={`absolute inset-0 opacity-20 ${styles.gradient} blur-3xl`} />
-      
-      <div className="relative z-10 flex items-center justify-between">
+
+      <div
+        className={`absolute inset-0 opacity-20 ${styles.gradient} blur-3xl`}
+      />
+
+      <div className="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h3 className="text-2xl font-bold bg-linear-to-r from-white to-slate-300 bg-clip-text text-transparent">
+          <h3 className="text-xl sm:text-2xl font-bold bg-linear-to-r from-white to-slate-300 bg-clip-text text-transparent">
             {title}
           </h3>
-          <p className={`${styles.text}/80 text-sm mt-1 font-light tracking-wide flex items-center gap-2`}>
-            <span className={`w-1.5 h-1.5 rounded-full ${styles.accent} animate-pulse`} />
+          <p
+            className={`${styles.text}/80 text-xs sm:text-sm mt-1 font-light tracking-wide flex items-center gap-2`}
+          >
+            <span
+              className={`w-1.5 h-1.5 rounded-full ${styles.accent} animate-pulse`}
+            />
             {subtitle}
           </p>
         </div>
 
-        <div className="flex gap-4">
+        {/* Icons section - hidden on mobile, shown on tablet and up */}
+        <div className="hidden sm:flex gap-4">
           {icons.map((iconPath, index) => (
-            <div key={index} className={`p-2 rounded-xl ${styles.iconGlow} backdrop-blur-sm border border-white/10`}>
-              <img 
+            <div
+              key={index}
+              className={`p-2 rounded-xl ${styles.iconGlow} backdrop-blur-sm border border-white/10 flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14`}
+            >
+              <img
                 src={iconPath}
                 alt=""
-                className="w-12 h-12 opacity-100 hover:opacity-100 transition-opacity duration-300"
+                className="w-8 h-8 sm:w-10 sm:h-10 object-contain"
               />
             </div>
           ))}
@@ -104,21 +114,27 @@ const ExpandableCard: React.FC<ExpandableCardProps> = ({
 
       <div
         className={`grid transition-all duration-500 relative z-10 ${
-          open ? "grid-rows-[1fr] mt-8" : "grid-rows-[0fr]"
+          open ? "grid-rows-[1fr] mt-6 sm:mt-8" : "grid-rows-[0fr]"
         }`}
       >
-        <div className="overflow-hidden space-y-8">
+        <div className="overflow-hidden space-y-6 sm:space-y-8">
           <div className="prose prose-invert max-w-none">
-            <p className={`text-slate-300 text-lg leading-relaxed font-light border-l-2 ${styles.line} pl-4`}>
+            <p
+              className={`text-slate-300 text-base sm:text-lg leading-relaxed font-light border-l-2 ${styles.line} pl-4`}
+            >
               {description}
             </p>
           </div>
 
           <div>
-            <h4 className={`font-semibold mb-6 text-slate-200 text-lg flex items-center gap-2`}>
+            <h4
+              className={`font-semibold mb-4 sm:mb-6 text-slate-200 text-base sm:text-lg flex items-center gap-2`}
+            >
               <span className={`w-1.5 h-6 ${styles.accent} rounded-full`} />
               <span>Projects</span>
-              <span className={`text-xs px-2 py-0.5 rounded-full ${styles.badge} ml-2`}>
+              <span
+                className={`text-xs px-2 py-0.5 rounded-full ${styles.badge} ml-2`}
+              >
                 {projects.length}
               </span>
             </h4>
