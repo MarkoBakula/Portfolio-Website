@@ -16,7 +16,6 @@ export default function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   
-  // Refs for DOM elements we need to manipulate
   const orbRef = useRef<HTMLDivElement>(null);
   const backgroundImageRef = useRef<HTMLDivElement>(null);
   const foregroundImageRef = useRef<HTMLDivElement>(null);
@@ -42,10 +41,8 @@ export default function App() {
     { left: "70%", top: "20%", delay: "1.3s", duration: "4.5s" },
   ];
 
-  // Optimized animation loop using requestAnimationFrame
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
-      // Store mouse position in ref (doesn't trigger re-render)
       mousePosRef.current = { x: e.clientX, y: e.clientY };
     };
 
@@ -55,11 +52,9 @@ export default function App() {
         const centerX = window.innerWidth / 2;
         const centerY = window.innerHeight / 2;
         
-        // Calculate movement (limited range for subtle effect)
         const moveX = (x - centerX) * 0.02;
         const moveY = (y - centerY) * 0.02;
         
-        // Apply transforms with CSS transforms (much faster than React state)
         orbRef.current.style.transform = `translate(calc(-50% + ${moveX * 2}px), calc(-50% + ${moveY * 2}px))`;
         backgroundImageRef.current.style.transform = `translate(${moveX * 0.5}px, ${moveY * 0.5}px)`;
         foregroundImageRef.current.style.transform = `translate(${moveX}px, ${moveY}px)`;
@@ -241,7 +236,6 @@ export default function App() {
         id="top"
         className="relative min-h-screen flex items-center overflow-hidden"
       >
-        {/* Colored orbs - decorative background elements */}
         <div className="pointer-events-none absolute inset-0 overflow-hidden">
           <div
             className="absolute w-96 h-96 bg-blue-600/30 rounded-full blur-3xl animate-float"
@@ -255,8 +249,6 @@ export default function App() {
             className="absolute w-72 h-72 bg-amber-600/30 rounded-full blur-3xl animate-pulse-slow"
             style={{ left: "25%", bottom: "20%" }}
           />
-          
-          {/* Mouse-following orb - optimized with ref */}
           <div 
             ref={orbRef}
             className="absolute w-150 h-150 bg-indigo-500/15 rounded-full blur-3xl transition-transform duration-100 ease-out will-change-transform hidden md:block"
@@ -267,11 +259,7 @@ export default function App() {
             }}
           />
         </div>
-
-        {/* Grid lines */}
         <div className="absolute inset-0 bg-[linear-gradient(rgba(99,102,241,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(99,102,241,0.08)_1px,transparent_1px)] bg-size-[80px_80px] animate-pulse-slow" />
-
-        {/* Particles - floating dots */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           {particles.map((particle, i) => (
             <div
@@ -289,9 +277,7 @@ export default function App() {
 
         <div className="relative w-full">
           <div className="relative w-full min-h-screen flex items-center">
-            {/* Split image with parallax - hidden on mobile */}
             <div className="absolute inset-0 flex justify-end items-center">
-              {/* Background layer - moves slower (parallax effect) */}
               <div 
                 ref={backgroundImageRef}
                 className="absolute right-0 top-1/2 -translate-y-1/2 w-3/5 h-auto mr-10 hidden lg:block will-change-transform"
@@ -313,7 +299,6 @@ export default function App() {
                 />
               </div>
 
-              {/* Foreground layer - moves faster */}
               <div 
                 ref={foregroundImageRef}
                 className="absolute right-0 top-1/2 -translate-y-1/2 mr-10 hidden lg:block will-change-transform"
@@ -330,8 +315,6 @@ export default function App() {
                 />
               </div>
             </div>
-
-            {/* Text content - centered on all devices */}
             <div className="absolute inset-0 flex items-center z-10">
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full"> 
                 <div className="flex flex-col items-center lg:items-start text-center lg:text-left w-full lg:max-w-2xl mx-auto lg:mx-0 animate-fade-in-up">
